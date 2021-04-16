@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .forms import UserForm, ProfileForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 
 
@@ -31,4 +31,31 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = ProfileForm()
-    return render(request, 'growocery/register.html', {'user_form': user_form, 'profile_form': profile_form})    
+    return render(request, 'growocery/register.html', {'user_form': user_form, 'profile_form': profile_form})  
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/growocery')
+    else:
+        if request.method == 'GET':
+            return render(request, 'growocery/login.html', {'req': request})
+        elif request.method == "POST":
+            username = request.POST.get("username", "")
+            password = request.POST.get("password", "")
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect("/growocery/")
+            else:
+                return HttpResponseRedirect("/growocery/login")
+    pass
+
+
+def logout_view(request):  
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('/growocery/login')
+    else:
+        return redirect('/growocery/login')
