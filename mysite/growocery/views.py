@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from .forms import UserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
-
+from .models import PostCodeCommunity
 
 def index(request):
     return HttpResponse("Hello, world. You're at the grocery index.")
@@ -22,6 +22,7 @@ def register(request):
             profile_form = ProfileForm(request.POST, instance=user.customerprofile)
             profile_form.full_clean()
             profile_form.save()
+            user.profile.pcc = PostCodeCommunity.objects.get_or_create(postcode = user.profile.postcode)
             
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
