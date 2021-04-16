@@ -8,7 +8,7 @@ h3 {
     font-weight: 700;
 }
 button {
-    background-color: #FFC9B2;
+    background-color: #F16E1C;
     padding-top: 18px;
     padding-bottom: 18px;
     width: 320px;
@@ -20,7 +20,7 @@ button {
     color: white;
 }
 button:hover {
-    background-color: #FF9669; 
+    background-color: #FF8321;
     color: white;
 }
 input {
