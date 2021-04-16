@@ -60,9 +60,9 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect("/growocery/")
+                return redirect("/growocery/")
             else:
-                return HttpResponseRedirect("/growocery/login")
+                return redirect("/growocery/login/")
     pass
 
 
@@ -72,9 +72,9 @@ def logout_view(request):
     """
     if request.user.is_authenticated:
         logout(request)
-        return redirect('/growocery/login')
+        return redirect('/growocery/login/')
     else:
-        return redirect('/growocery/login')
+        return redirect('/growocery/login/')
     
 def postcode_home(request, postcode):
     pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
