@@ -33,6 +33,11 @@ input {
     display: block;
     margin-top: 15px;
     margin-bottom: 25px;
+    color: #491C1D;
+}
+input:focus {
+    outline-width: 0;
+    outline: none;
 }
 label {
     font-weight: bold;
