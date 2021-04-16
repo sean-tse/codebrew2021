@@ -8,6 +8,8 @@
         </title>
         {% load static %}
         <link rel="stylesheet" href="{% static '/css/style.css' %}">
+        {% block style %}
+        {% endblock %}
     </head>
     <body>
         {% block main-content %}

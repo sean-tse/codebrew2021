@@ -1,0 +1,35 @@
+body {
+    background-color: #F8F8F8;
+}
+li, .helptext {
+    font-size: 13px;
+    color: #ABA19E;
+    list-style: none;
+}
+p {
+    margin-top: 35px;
+}
+ul {
+    margin-bottom: 20px;
+    margin-block-start: 0;
+    padding-inline-start: 0px;
+}
+img {
+    width: 145px;
+}
+.form-card {
+    width: 40%;
+    background-color: white;
+    margin: auto;
+    margin-top: 8%;
+    margin-bottom: 8%;
+    padding-left: 140px;
+    padding-right: 140px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    border-radius: 30px;
+}
+.center {
+    width: 100%;
+    text-align: center;
+}

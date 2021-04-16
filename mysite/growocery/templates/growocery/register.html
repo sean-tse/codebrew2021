@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/auth.css' %}">
+{% endblock %}}
+
 {% block main-content %}
 <div class='form-card'>
+    <div class='center'>
+        <img src="{% static 'growocery/images/logo-square.png' %}" alt="Growocery logo">
+        <h3>Create an account</h3>
+    </div>
     <form method="post">
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
-        <button type="submit">Save changes</button>
+        <div class='center'>
+            <button type="submit">Save changes</button>
+        </div>
     </form>
 </div>
 {% endblock %}
-
-<!-- {% block style %}
-body {
-    background-color: #F8F8F8;
-}
-
-{% endblock %} -->
