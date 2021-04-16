@@ -1,23 +1,16 @@
-{% extends "base.html" %}
+{% extends "growocery/auth.html" %}
 
-{% block style %}
-{% load static %}
-<link rel="stylesheet" href="{% static '/css/auth.css' %}">
-{% endblock %}}
+{% block form-title %}
+Create an account
+{% endblock %}
 
-{% block main-content %}
-<div class='form-card'>
+{% block form %}
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
     <div class='center'>
-        <img src="{% static 'growocery/images/logo-square.png' %}" alt="Growocery logo">
-        <h3>Create an account</h3>
+        <button type="submit">Save changes</button>
     </div>
-    <form method="post">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        <div class='center'>
-            <button type="submit">Save changes</button>
-        </div>
-    </form>
-</div>
+</form>
 {% endblock %}

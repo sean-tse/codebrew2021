@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/auth.css' %}">
+{% endblock %}}
+
+{% block main-content %}
+<div class='form-card'>
+    <div class='center'>
+        <img src="{% static 'growocery/images/logo-square.png' %}" alt="Growocery logo">
+        <h3>
+            {% block form-title %}
+            {% endblock %}
+        </h3>
+    </div>
+    {% block form %}
+    {% endblock %}
+</div>
+{% endblock %}

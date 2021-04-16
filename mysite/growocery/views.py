@@ -16,7 +16,7 @@ def register(request):
     Create a new account.
     """
     if request.user.is_authenticated:
-        return redirect('/growocery')
+        return redirect('/growocery/')
     else:
         if request.method == 'POST':
             user_form = UserForm(request.POST) 
@@ -57,9 +57,9 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect("/growocery/")
+                return redirect("/growocery/")
             else:
-                return HttpResponseRedirect("/growocery/login")
+                return redirect("/growocery/login/")
     pass
 
 
@@ -69,6 +69,6 @@ def logout_view(request):
     """
     if request.user.is_authenticated:
         logout(request)
-        return redirect('/growocery/login')
+        return redirect('/growocery/login/')
     else:
-        return redirect('/growocery/login')
+        return redirect('/growocery/login/')
