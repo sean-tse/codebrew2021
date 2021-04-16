@@ -70,23 +70,23 @@ class Invoice(models.Model):
     amount =  models.DecimalField(decimal_places=2, max_digits=15)
     
 class Cart(models.Model):
-    store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE)
-    combinedOrder = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='combinedOrder')
-    groupOrders = models.ManyToManyField(Order, related_name='groupOrders')
-    total = models.DecimalField(decimal_places=2, max_digits=15)
+    store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE, blank=True, null=True)
+    combinedOrder = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='combinedOrder', blank=True, null=True)
+    groupOrders = models.ManyToManyField(Order, related_name='groupOrders', blank=True, null=True)
+    total = models.DecimalField(decimal_places=2, max_digits=15, blank=True, null=True)
     orderedStatus = models.BooleanField(default=False)
-    orderDate = models.DateTimeField()
+    orderDate = models.DateTimeField(blank=True, null=True)
     
 
 class Pickup(models.Model):
-    buyer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
-    locationDetails = models.CharField(max_length=300)
-    pickupWhen = models.DateTimeField()
+    buyer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=True, null=True)
+    locationDetails = models.CharField(max_length=300, blank=True, null=True, default="debug test")
+    pickupWhen = models.DateTimeField(blank=True, null=True)
     
 
 
 class CommunityGroceryGroup(models.Model):
-    pcc = models.OneToOneField(PostCodeCommunity, on_delete=models.CASCADE)
+    pcc = models.ForeignKey(PostCodeCommunity, on_delete=models.CASCADE)
     nextDeadline = models.DateTimeField()
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE) 
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE)

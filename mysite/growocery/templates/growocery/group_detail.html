@@ -1,0 +1,9 @@
+{% if group %}
+    <div class="container1">
+        <h2>{{ group.store.name }}</h2>
+        <h2>{{ group.pickup.buyer.name }}</h2>
+        <h2>{{ group.pickup.locationDetails}}</h2>
+        <h2>{{ group.id }}</h2>
+        <h2>{{ group.cart.groupOrders }}</h2>
+    </div>
+{% endif %}
