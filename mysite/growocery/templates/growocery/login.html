@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "growocery/auth.html" %}
 
 {% block form-title %}
@@ -7,6 +8,9 @@ Login
 {% block form %}
 <form method="POST" action="/growocery/login">
     {% csrf_token %}
+=======
+<form method="POST" action="/growocery/login/">
+>>>>>>> main
     <table>
         <tr><td>Username</td><td><input type="text" name="username" placeholder="Username"></td></tr>
         <tr><td>Password</td><td><input type="password" name="password"></td></tr>

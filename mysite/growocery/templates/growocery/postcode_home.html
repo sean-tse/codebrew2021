@@ -1,0 +1,8 @@
+{% if groups %}
+    {%for group in groups%}
+    <div class="container">
+        <h2>{{ group.store.name }}</h2>
+        <h2>{{ group.id }}</h2>
+    </div>
+    {% endfor %}
+{% endif %}

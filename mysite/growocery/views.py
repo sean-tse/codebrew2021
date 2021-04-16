@@ -7,6 +7,9 @@ from .forms import UserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from .models import PostCodeCommunity
+import datetime
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup
+
 
 def index(request):
     return HttpResponse("Hello, world. You're at the grocery index.")
@@ -72,3 +75,20 @@ def logout_view(request):
         return redirect('/growocery/login/')
     else:
         return redirect('/growocery/login/')
+    
+def postcode_home(request, postcode):
+    pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
+    
+    for (code, label) in GroceryChain.ChainName.choices:
+        chain = GroceryChain.objects.get_or_create(chain=code)[0]
+        store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
+        cart = Cart.objects.get_or_create(store=store)[0]
+        group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=Pickup.objects.create(), nextDeadline=datetime.date.today()) # 1 week in advance 
+        
+    groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
+    return render(request, 'growocery/postcode_home.html', {'groups': groups})
+
+
+def group_detail(request, id):
+    group = CommunityGroceryGroup.objects.filter(id=id)[0]
+    return render(request, 'growocery/group_detail.html', {'group': group})
