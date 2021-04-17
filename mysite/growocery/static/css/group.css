@@ -1,0 +1,50 @@
+body {
+    background-color: #F8F8F8;
+}
+
+table a {
+    color: red;
+    font-size: 20px;
+}
+
+table {
+    margin: 0;
+    padding: 0;
+    border: 0; 
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+th {
+    font-weight: 700;
+    padding-bottom: 15px;
+    padding-right: 15px;
+}
+
+td {
+    padding-bottom: 10px;
+}
+
+.content-card {
+    width: auto;
+    background-color: white;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    padding: 30px;
+    border-radius: 30px;
+}
+
+.my-cart {
+    width: 30%;
+    background-color: #F8F8F8;
+    padding: 25px;
+    border-radius: 15px;
+    position: relative;
+    min-height: 70vh;
+}
+
+.cart-title {
+    margin-bottom: 30px;
+}

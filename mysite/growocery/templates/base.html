@@ -21,6 +21,12 @@
                 <div class='logo-long'>
                     <img src="{% static 'growocery/images/logo-long.png' %}" alt="Growocery Logo">
                 </div>
+                <div class='title'>
+                    <h2>
+                        {% block top-bar-title %}
+                        {% endblock top-bar-title %}
+                    </h2>
+                </div>
                 <div class='nav-bar'>
                     <nav>
                         <ul class='row'>
