@@ -93,7 +93,7 @@ class Cart(models.Model):
 
 class Pickup(models.Model):
     buyer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=True, null=True)
-    locationDetails = models.CharField(max_length=300, blank=True, null=True, default="debug test")
+    locationDetails = models.CharField(max_length=300, blank=True, null=True, default="not organised yet")
     pickupWhen = models.DateTimeField(blank=True, null=True)
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE,blank=True, null=True)
 
