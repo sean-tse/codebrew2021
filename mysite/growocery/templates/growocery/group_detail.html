@@ -3,12 +3,12 @@
 {% block overlay-content %}
 <div class='overlay-modal center'>
   <div class='cancel-button'>
-    <a  class='cancel-button' onclick='volunteerBuyerCancelCallback()'>&#10006;</a>
+    <a class='cancel-button' onclick='volunteerBuyerCancelCallback()'>&#10006;</a>
   </div>
   <div class='center bold-body modal-text'>Are you sure you want to volunteer as buyer?</div>
   <div class='modal-text small-text'>
     Buyers will receive all the items in the group order either via delivery or in-store pickup. Everyone in the group
-    will pickup their items from a location nominated by the buyer.
+    will pickup their items from a location nominated by the buyer. This action cannot be undone.
   </div>
 
   <form action="{% url 'group_detail' group.id %}" method="post">
@@ -16,9 +16,9 @@
     <label for="pickup location">Pickup Location</label>
     <input type="text" name="pickupLocation">
     <label for="pickup day">Pickup Day</label>
-    <input type="date" name="pickupWhen">
+    <input type="date" name="pickupWhen" id="datefield">
     <div class='center'>
-      <button type=submit name='confirm'>confirm</button>
+      <button type=submit name='confirm' onclick="volunteerBuyerConfirmCallback()">confirm</button>
     </div>
   </form>
 </div>
@@ -31,9 +31,9 @@
 <div id='status' class='details-container'>
   <div class="title bold-body" id='status-title'>Status</div>
   <div id="progress-bg">
-    <div id="progress" style="{% if not group.pickup.buyer %} width:17%; {% else %} width: 34%; {% endif %}"></div>
+    <div id="progress"></div>
   </div>
-  <div>
+  <div id="status-text">
     {% if not group.pickup.buyer %}
     Step 1 of 6: Buyer needed. Group Grocery List not confirmed. You may amend your list.
     {% else %}
@@ -102,5 +102,38 @@
     </tr>
   </table>
 </div>
+
+<script>
+  const STATUS_1_TEXT = "Step 1 of 6: Buyer needed. Group Grocery List not confirmed. You may amend your list."
+  const STATUS_2_TEXT = "Step 2 of 6: Group Grocery List not confirmed. You may amend your list."
+  const STATUS_3_TEXT = "Step 3 of 6: Group Grocery List confirmed. Your invoice has been issued. Make the payment to confirm your order."
+  const STATUS_4_TEXT = "Step 4 of 6: You have made your payment. The order will be placed soon."
+  const STATUS_5_TEXT = "Step 5 of 6: Order has been made and will be received by the buyer. Pick up from buyer on pickup day."
+  const STATUS_6_TEXT = "Step 6 of 6: You have picked up your groceries for this week. See you next week!"
+  const STATUSES = [STATUS_1_TEXT, STATUS_2_TEXT, STATUS_3_TEXT, STATUS_4_TEXT, STATUS_5_TEXT, STATUS_6_TEXT]
+
+  var status = '{{status}}'
+  const groupBuyer = '{{ group.pickup.buyer }}'
+  var progress = document.getElementById("progress")
+  var statusText = document.getElementById("status-text")
+  // Update HTML elements
+  statusText.innerHTML = STATUSES[status - 1]
+  progress.style.width = `${status * 100 / 6}%`
+
+  // Date tag
+  var today = new Date()
+  var tomorrow = new Date(today)
+  var dd = today.getDate()
+  var mm = today.getMonth() + 1 //January is 0!
+  var yyyy = today.getFullYear()
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+  today = yyyy + '-' + mm + '-' + dd
+  document.getElementById("datefield").setAttribute("min", today)
+</script>
 {% endif %}
 {% endblock right-content %}

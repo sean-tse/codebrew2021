@@ -102,24 +102,28 @@ def postcode_home(request, postcode):
 
 def group_detail(request, id):
     if request.user.is_authenticated:
-        groupStatus = 1
+        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        groupStatus = get_group_status(group, myorder)
         if request.method == "GET":
-            group = CommunityGroceryGroup.objects.filter(id=id)[0]
-            myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
-            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder, 'status': groupStatus})
         elif request.method == "POST":
             pickupLocation = request.POST.get("pickupLocation", "")
             pickupWhen = request.POST.get('pickupWhen')
-            group = CommunityGroceryGroup.objects.filter(id=id)[0]
-            myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
             group.pickup.buyer = request.user.customerprofile
             group.pickup.locationDetails = pickupLocation
             group.pickup.pickupWhen = pickupWhen
             group.pickup.save()
             group.save()
-            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
+            groupStatus = get_group_status(group, myorder)
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder, 'status': groupStatus})
     else:
         return redirect('/growocery/login/')
+
+def get_group_status(group, order):
+    if not group.pickup.buyer:
+        return 1
+    return 2
 
 def group_catalogue(request, id):
     if request.user.is_authenticated:
@@ -146,6 +150,14 @@ def group_members(request, id):
         group = group =  get_object_or_404(CommunityGroceryGroup, id=id)
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
         return render(request, 'growocery/group_members.html', {'myorder':myorder, 'group':group})
+    else:
+        return redirect('/growocery/login/')
+
+def group_chat(request, id):
+    if request.user.is_authenticated:
+        group = get_object_or_404(CommunityGroceryGroup, id=id)
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group})
     else:
         return redirect('/growocery/login/')
 
