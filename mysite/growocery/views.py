@@ -5,10 +5,10 @@ from django.http import HttpResponse
 
 from .forms import UserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import PostCodeCommunity
 import datetime
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice
 
 
 def index(request):
@@ -123,12 +123,13 @@ def group_list(request, id):
 def add_one(request, price_id, group_id, order_id):
     price = Price.objects.filter(id=price_id)[0]
     myorder = Order.objects.filter(id=order_id)[0]
-    myorder.prices.add(price)
+    OrderPrice.objects.create(order=myorder, price=price)
     return redirect(f"/growocery/community/{group_id}/catalogue")
 
 
 def remove_one(request, price_id, group_id, order_id):
     price = Price.objects.filter(id=price_id)[0]
     myorder = Order.objects.filter(id=order_id)[0]
-    myorder.prices.remove(price)
+    record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
+    record.delete()
     return redirect(f"/growocery/community/{group_id}/catalogue")
