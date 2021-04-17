@@ -50,11 +50,18 @@ body {
     padding-top: 35px;
     padding-bottom: 25px;
 }
-.image-container {
-    width: 100%;
-    background-color: red;
-    justify-content: center;
-}
 img.group-image {
     height: 200px;
+    margin-bottom: 24px;
+}
+table {
+    margin-top: 15px;
+    margin-bottom: 5px;   
+}
+th {
+    padding-bottom: 5px;
+}
+button {
+    width: 100%;
+    background-color: #FFC9B2;
 }

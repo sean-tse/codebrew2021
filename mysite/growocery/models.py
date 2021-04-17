@@ -39,6 +39,7 @@ class GroceryChain(models.Model):
         ALDI = 'ALD', _('ALDI')
 
     chain = models.CharField(max_length=3, choices=ChainName.choices)
+    # label = "Coles"
 
 class DeliveryFee(models.Model):
     chain = models.ForeignKey(GroceryChain, on_delete=models.CASCADE)

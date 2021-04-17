@@ -79,21 +79,20 @@ def logout_view(request):
 def postcode_home(request, postcode):
     if request.user.is_authenticated:
         pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
-
+        labels = []
         for (code, label) in GroceryChain.ChainName.choices:
             chain = GroceryChain.objects.get_or_create(chain=code)[0]
             store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
             cart = Cart.objects.get_or_create(store=store)[0]
             pickup=Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)[0]
             group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance
-
+            labels.append(label)
+            label = label
         groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
 
-        return render(request, 'growocery/postcode_home.html', {'groups': groups, 'postcode': postcode})
+        return render(request, 'growocery/postcode_home.html', {'groups': groups, 'postcode': postcode, "labels": labels})
     else:
         return redirect("/growocery/login/")
-
-
 
 def group_detail(request, id):
     if request.user.is_authenticated:

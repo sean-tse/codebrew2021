@@ -89,3 +89,14 @@ nav li a:hover {
     width: 100%;
     text-align: center;
 }
+table {
+    font-weight: normal;
+    align-content: left;
+}
+th {
+    text-align: left;
+    font-weight: 400;
+}
+.small-text {
+    font-size: 13px;
+}

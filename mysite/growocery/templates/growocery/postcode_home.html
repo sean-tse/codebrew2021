@@ -19,12 +19,33 @@
     <div id='grocery-groups'>
         {% for group in groups %}
         <div class="container">
-            <h3>{{ group.store.name }}</h3>
             <!-- <h2>{{ group.id }}</h2> -->
             <div class='center'>
                 <img src="{% static 'growocery/images/grocery-stock/peach.png' %}" alt="" class='group-image'>
             </div>
-            
+            <h3>{{ group.store.name }}</h3>
+            <table>
+                <tr>
+                    <th>Retail Grocer: </th>
+                    <th>{{ group.store.chain.chain }}</th>
+                </tr>
+                <tr>
+                    <th>Weekly Deadline: </th>
+                    <th>{{ group.nextDeadline }}</th>
+                </tr>
+                <tr>
+                    <th>Community Pickup: </th>
+                    <th>{{ group.pickup.locationDetails }}</th>
+                </tr>
+                <tr>
+                    <th>Pickup Day: </th>
+                    <th>{{ group.pickup.pickupWhen }}</th>
+                </tr>
+            </table>      
+            <p class='small-text'>
+                {{ group.cart.groupOrders | length }} people have contributed to this grocery list this week
+            </p>
+            <button onclick="location.href='/growocery/community/{{group.id}}/detail'">View List</button>
         </div>
         {% endfor %}
     </div>
