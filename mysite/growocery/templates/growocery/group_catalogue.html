@@ -1,33 +1,31 @@
-<body style="background-color: #e8ecf2">
-  <h1 style="color: red">Catalogue</h1>
-  {% if prices %} {% for price in prices %}
-  <div class="card" style="background-color: White" onclick="">
-    <div class="container">
-      <h2>{{ price.item.name }}</h2>
-      <p>{{price.id}}</p>
-      <p>{{price.item.img}}</p>
-      <p>{{price.quantity}}</p>
-      <p>{{price.price}}</p>
-      <a href= "/growocery/add/{{price.id}}/{{group.id}}/{{myorder.id}}">
-        <button id="add1">Add to order list</button>
-    </a>
-    </div>
-  </div>
-  {% endfor %} {% endif %}
+{% extends "growocery/group.html" %}
 
-  <h1 style="color: blue">My Current Orders</h1>
-  {% for price in myorder.prices.all %}
-  <div class="card" style="background-color: White" onclick="">
-    <div class="container">
-      <h2>{{price.item.name }}</h2>
-      <p>{{price.id}}</p>
-      <p>{{price.item.img}}</p>
-      <p>{{price.quantity}}</p>
-      <p>{{price.price}}</p>
-    <a href= "/growocery/minus/{{price.id}}/{{group.id}}/{{myorder.id}}">
-        <button id="minus1">Remove from order list</button>
-    </a>
+{% block right-content %}
+
+<div class='search'>
+  <label for="search-text">item search</label>
+  <input type="text">
+</div>
+
+{% if prices %}
+<div class='catalogue-container'>
+
+  {% for price in prices %}
+  <div class="catalogue-item {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
+    <img src="{{price.item.img}}" alt="{{ price.item.name }}">
+    <div>{{ price.item.name }}</div>
+    <div class='small-text'>Added to shared list. Bulk buy option may be available.</div>
+    <h3>${{price.price}}</h3>
+    <div class='center'>
+      <a href= "/growocery/add/{{price.id}}/{{group.id}}/{{myorder.id}}">
+        <button id="add1">Add to cart</button>
+      </a>
     </div>
+    
   </div>
   {% endfor %}
-</body>
+
+</div>
+{% endif %}
+
+{% endblock right-content %}
