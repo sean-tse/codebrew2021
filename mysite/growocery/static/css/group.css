@@ -1,0 +1,134 @@
+body {
+    background-color: #F8F8F8;
+}
+
+a {
+    color: #491C1D;
+}
+
+a:hover {
+    color: #FF8321;
+}
+
+table a {
+    color: #491C1D;
+    font-size: 20px;
+}
+
+table a:hover {
+    color: red;
+    font-size: 20px;
+}
+
+table {
+    margin: 0;
+    padding: 0;
+    border: 0; 
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+th {
+    font-weight: 700;
+    padding-bottom: 15px;
+    padding-right: 15px;
+}
+
+td {
+    padding-bottom: 15px;
+    padding-right: 10px;
+}
+
+.content-card {
+    width: auto;
+    background-color: white;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    padding: 30px;
+    border-radius: 30px;
+    display: flex;
+}
+
+.my-cart {
+    width: 30%;
+    background-color: #F8F8F8;
+    padding: 25px;
+    border-radius: 15px;
+    position: relative;
+    min-height: 70vh;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.main-area {
+    width: 70%;
+    padding-left: 40px;
+}
+
+.main-area-nav {
+    display: flex;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.main-area-nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.main-area-nav li {
+    margin: 0;
+    margin-right: 60px;
+    list-style-type: none;
+}
+
+.main-area-nav a {
+    font-size: 16px;
+    font-weight: 700;
+    color: #491C1D;
+}
+
+.main-area-nav a:hover {
+    text-decoration: underline;
+}
+
+.details-container {
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 15px;
+}
+
+#status {
+    background-color: #FFEFEE;
+}
+
+#buyer {
+    background-color: #FFF1E6;
+}
+
+#pickup {
+    background-color: #FFF9E2
+}
+
+input[type=submit] {
+    background-color: #FFC9B2;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    margin: 0;
+    border-radius: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 15px;
+}
+
+input[type=submit]:hover {
+    background-color: #FE9B71;
+    cursor: pointer;
+}

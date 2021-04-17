@@ -7,6 +7,10 @@ h1 {
     font-size: 50px;
     margin: 0;
 }
+h2 {
+    font-size: 32px;
+    margin: 0;
+}
 h3 {
     font-size: 26px;
     font-weight: 700;
@@ -99,4 +103,15 @@ th {
 }
 .small-text {
     font-size: 13px;
+}
+.bold-body {
+    font-weight: 700;
+}
+.title h2 {
+    position: relative;
+    top: 50%;
+    transform: translateY(-16px);
+}
+a {
+    text-decoration: none;
 }

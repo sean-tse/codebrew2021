@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static '/css/group.css' %}">
+{% endblock style %}
+
+{% block top-bar-title %}
+<a href="/growocery">{{group.store.name}}</a> List
+{% endblock top-bar-title %}
+
+{% block main-content %}
+
+<div class='content-card'>
+    <!-- left side is my cart -->
+    <div class='my-cart'>
+        <div class='title bold-body'>My Cart</div>
+        {% if myorder.prices.all %}
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            {% for order in myorder.prices.all %}
+            <tr>
+                <td>{{ order.item.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.price }}</td>
+                <td>
+                    <a href="/growocery/minus/{{order.id}}/{{group.id}}/{{myorder.id}}">&#10006;</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div id='empty-cart-message' class='center'>
+            Oops! Your cart is currently empty.<br />Visit Catalogue to add grocery items to it.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- right side is main area -->
+    <div class='main-area'>
+        <div class='main-area-nav'>
+            <ul>
+                <li><a href="/growocery/community/{{group.id}}/detail">Details</a></li>
+                <li><a href="/growocery/community/{{group.id}}/catalogue">Catalogue</a></li>
+                <li><a href="">Grocery List</a></li>
+                <li><a href="">Group Chat</a></li>
+            </ul>
+        </div>
+        <div>
+            {% block right-content %}
+            test
+            {% endblock right-content%}
+        </div>
+    </div>
+
+</div>
+
+{% endblock main-content %}
