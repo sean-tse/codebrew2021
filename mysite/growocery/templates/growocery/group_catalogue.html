@@ -1,0 +1,25 @@
+<body style="background-color: #e8ecf2">
+  <h1 style="color: red">Catalogue</h1>
+  {% if prices %} {% for price in prices %}
+  <div class="card" style="background-color: White" onclick="">
+    <div class="container">
+      <h2>{{ price.item.name }}</h2>
+      <p>{{price.item.img}}</p>
+      <p>{{price.quantity}}</p>
+      <p>{{price.price}}</p>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+
+  <h1>My current orders:</h1>
+  {% for price in myorders.prices %}
+  <div class="card" style="background-color: White" onclick="">
+    <div class="container">
+      <h2>{{ price.item.name }}</h2>
+      <p>{{price.item.img}}</p>
+      <p>{{price.quantity}}</p>
+      <p>{{price.price}}</p>
+    </div>
+  </div>
+  {% endfor %}
+</body>
