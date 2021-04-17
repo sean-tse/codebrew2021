@@ -62,6 +62,7 @@ class Price(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
+    store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE, blank=True, null=True)
     prices = models.ManyToManyField(Price)
     orderTotal =  models.DecimalField(decimal_places=2, max_digits=15)
     invoiceGenerated = models.BooleanField(default=False)
