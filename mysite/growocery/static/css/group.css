@@ -60,7 +60,7 @@ td {
     min-height: 70vh;
 }
 
-.cart-title {
+.title {
     margin-bottom: 30px;
 }
 
@@ -95,4 +95,39 @@ td {
 
 .main-area-nav a:hover {
     text-decoration: underline;
+}
+
+.details-container {
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 15px;
+}
+
+#status {
+    background-color: #FFEFEE;
+}
+
+#buyer {
+    background-color: #FFF1E6;
+}
+
+#pickup {
+    background-color: #FFF9E2
+}
+
+input[type=submit] {
+    background-color: #FFC9B2;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    margin: 0;
+    border-radius: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 15px;
+}
+
+input[type=submit]:hover {
+    background-color: #FE9B71;
 }

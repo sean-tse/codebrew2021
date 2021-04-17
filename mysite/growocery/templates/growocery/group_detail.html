@@ -1,35 +1,78 @@
 {% extends "growocery/group.html" %}
 
-  <!-- {% if group %}
-  <div class="container1">
+{% block right-content %}
+  {% if group %}
+
+  <!-- Group Status -->
+  <div id='status' class='details-container'>
+    <div class="title bold-body">Status</div>
+    <div>
+      Step 1 of 6: Buyer needed. Group Grocery List not confirmed. You may ammend your list. 
+    </div>
+  </div>
+
+  <div id='buyer' class='details-container'>
+    <div class="title bold-body">Buyer Details</div>
+    <table>
+      <tr>
+        <td>Buyer:</td>
+        <th>
+          {% if not group.pickup.buyer %}
+          Undecided
+          {% else %}
+          {{ group.pickup.buyer.customerAccount.first_name }} {{ group.pickup.buyer.customerAccount.last_name }}
+          {% endif %}
+        </th>
+      </tr>
+      <tr>
+        <td>Contact:</td>
+        <th>
+          {% if group.pickup.buyer %}
+          {{ group.pickup.buyer.phone }}
+          {% endif %}
+        </th>
+      </tr>
+    </table>
     {% if not group.pickup.buyer %}
-    <h2>Buyer Details</h2>
-    <h3>Buyer: Undecided</h3>
     <form action="{% url 'group_detail' group.id %}" method="post">
       {% csrf_token %}
       <input type="submit" value="Volunteer as buyer">
     </form>
-    <h2>Pickup Details</h2>
-    <h3>Retail Grocer: {{ group.store.name }}</h3>
-    <h3>Weekly Deadline: {{ group.nextDeadline }}</h3>
-    <h3>Pickup Location: TBA</h3>
-    <h3>Pickup Day: TBA</h3>
-    {% else %}
-    <h2>Buyer Details</h2>
-    <h3>Buyer: {{ group.pickup.buyer.customerAccount.first_name }} {{ group.pickup.buyer.customerAccount.last_name }}
-    </h3>
-    <h3>Contact: {{ group.pickup.buyer.phone }}</h3>
-    <h2>Pickup Details</h2>
-    <h3>Retail Grocer: {{ group.store.name }}</h3>
-    <h3>Weekly Deadline: {{ group.nextDeadline }}</h3>
-    <h3>Pickup Location: {{ group.pickup.locationDetails }}</h3>
-    <h3>Pickup Day: {{ group.pickup.pickupWhen }}</h3>
     {% endif %}
   </div>
-  <div class="container2">
-    <h2>List Members</h2>
-    {% for order in group.cart.groupOrders.all %}
-    <h3>{{ order.customer.customerAccount.first_name }}</h3>
-    {% endfor %}
+
+  <div id='pickup' class='details-container'>
+    <div class="title bold-body">Pickup Details</div>
+    <table>
+      <tr>
+        <td>Retail Grocer:</td>
+        <th>{{ group.store.name }} </th>
+      </tr>
+      <tr>
+        <td>Weekly Deadline:</td>
+        <th>{{ group.nextDeadline }}</th>
+      </tr>
+      <tr>
+        <td>Pickup Location:</td>
+        <th>
+          {% if group.pickup.buyer %}
+          {{ group.pickup.locationDetails }}
+          {% else %}
+          TBA
+          {% endif %}
+        </th>
+      </tr>
+      <tr>
+        <td>Pickup Day:</td>
+        <th>
+          {% if group.pickup.buyer %}
+          {{ group.pickup.pickupWhen }}
+          {% else %}
+          TBA
+          {% endif %}
+        </th>
+      </tr>
+    </table>
   </div>
-  {% endif %} -->
+  {% endif %}
+{% endblock right-content %}
