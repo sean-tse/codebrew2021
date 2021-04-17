@@ -2,6 +2,32 @@
 
 {% load static %}
 
+{% block style %}
+<link rel="stylesheet" href="{% static '/css/group.css' %}">
+<link rel="stylesheet" href="{% static '/css/group-chat.css' %}">
+{% endblock style %}
+
 {% block right-content %}
+
+<div class='chat-content'>
+    {% for message in messages %}
+    {% if message.sender.customerAccount == request.user%}
+    <div class="outgoing message">
+        {{ message.message }}
+    </div>
+    {% else %}
+    <div class="incoming message">
+        {{ message.message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="send-message">
+    <form action="{% url 'group_chat' group.id %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="chat-box">
+        <button type="submit">send message</button>
+    </form>
+</div>
 
 {% endblock right-content %}

@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import PostCodeCommunity
 import datetime
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice, Message
 
 from collections import defaultdict
 import math
@@ -157,7 +157,15 @@ def group_chat(request, id):
     if request.user.is_authenticated:
         group = get_object_or_404(CommunityGroceryGroup, id=id)
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
-        return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group})
+        messages = Message.objects.filter(group=id).order_by('timestamp')
+        if request.method == "GET":
+            return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group, 'messages': messages})
+        if request.method == "POST":
+            new_message_text = request.POST.get("chat-box", "")
+            new_message, created = Message.objects.get_or_create(group=group, sender=request.user.customerprofile, message=new_message_text)
+            messages = Message.objects.filter(group=id).order_by('timestamp')
+            return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group, 'messages': messages})
+        
     else:
         return redirect('/growocery/login/')
 

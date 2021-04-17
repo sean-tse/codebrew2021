@@ -72,6 +72,7 @@ button {
 .main-area {
     width: 70%;
     padding-left: 40px;
+    padding-right: 30px;
 }
 
 .main-area-nav {
@@ -162,6 +163,8 @@ input[type=submit]:hover {
     grid-template-columns: 49% 49%;
     grid-column-gap: 15px;
     grid-row-gap: 15px;
+    overflow: scroll;
+    max-height: 100vh;
 }
 
 .catalogue-item {

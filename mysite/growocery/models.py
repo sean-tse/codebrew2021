@@ -74,9 +74,6 @@ class Order(models.Model):
     orderTotal =  models.DecimalField(decimal_places=2, max_digits=15, default=0)
     invoiceGenerated = models.BooleanField(default=False)
 
-
-
-
 class Invoice(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
@@ -97,8 +94,6 @@ class Pickup(models.Model):
     pickupWhen = models.DateTimeField(blank=True, null=True)
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE,blank=True, null=True)
 
-
-
 class CommunityGroceryGroup(models.Model):
     pcc = models.ForeignKey(PostCodeCommunity, on_delete=models.CASCADE)
     nextDeadline = models.DateTimeField()
@@ -106,3 +101,9 @@ class CommunityGroceryGroup(models.Model):
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE)
     pickup = models.ForeignKey(Pickup, on_delete=models.CASCADE, blank=True, null=True, related_name='pickup')
     volunteers = models.ManyToManyField(Pickup, blank=True, related_name='volunteers')
+
+class Message(models.Model):
+    group = models.ForeignKey(CommunityGroceryGroup, on_delete=models.CASCADE, blank=False, null=False)
+    sender = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=False, null=False)
+    message = models.TextField(blank=False, null=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
