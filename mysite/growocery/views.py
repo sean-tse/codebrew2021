@@ -117,6 +117,14 @@ def group_catalogue(request, id):
     else:
         return redirect('/growocery/login/')
 
+def group_members(request, id):
+    if request.user.is_authenticated:
+        group = group =  get_object_or_404(CommunityGroceryGroup, id=id)
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        return render(request, 'growocery/group_members.html', {'myorder':myorder, 'group':group})
+    else:
+        return redirect('/growocery/login/')
+
 # knapsack problem lol
 # minimise cost
 # input: total quantity
