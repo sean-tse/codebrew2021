@@ -2,6 +2,14 @@ body {
     background-color: #F8F8F8;
 }
 
+a {
+    color: #491C1D;
+}
+
+a:hover {
+    color: #FF8321;
+}
+
 table a {
     color: #491C1D;
     font-size: 20px;
