@@ -218,3 +218,11 @@ input[type=submit]:hover {
 .search input[type=text] {
     width: 97%;
 }
+
+table {
+    width: 100%;
+}
+
+.bold-body.list-title {
+    margin-bottom: 35px;
+}
