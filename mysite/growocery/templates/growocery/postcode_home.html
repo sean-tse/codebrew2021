@@ -8,9 +8,10 @@
 {% block main-content %}
 
 <div class='content-card'>
-    <h1>
-        {{postcode}}
-    </h1>
+    <div class='postcode-title'>
+        <h1>{{postcode}}</h1>
+        <p><a href="">view all members</a></p>
+    </div>
 
     {% if groups %}
     {%for group in groups%}
