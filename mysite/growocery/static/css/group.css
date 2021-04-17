@@ -132,3 +132,18 @@ input[type=submit]:hover {
     background-color: #FE9B71;
     cursor: pointer;
 }
+
+#status-title {
+    margin-bottom: 15px;
+}
+
+#progress-bg {
+    background-color: #FFFAFA;
+    margin-bottom: 15px;
+}
+
+#progress {
+    height:24px;
+    width:10%;
+    background-color:#6FCF97;
+}
