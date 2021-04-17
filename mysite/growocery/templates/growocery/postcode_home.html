@@ -10,16 +10,20 @@
 <div class='content-card'>
     <div class='postcode-title'>
         <h1>{{postcode}}</h1>
-        <p><a href="">view all members</a></p>
+        <div id='view-members-link'>
+            <a href="">view all members</a>
+        </div>
     </div>
 
     {% if groups %}
-    {%for group in groups%}
-    <div class="container">
-        <h2>{{ group.store.name }}</h2>
-        <h2>{{ group.id }}</h2>
+    <div id='grocery-groups'>
+        {% for group in groups %}
+        <div class="container">
+            <h2>{{ group.store.name }}</h2>
+            <h2>{{ group.id }}</h2>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
     {% endif %}
 
 </div>

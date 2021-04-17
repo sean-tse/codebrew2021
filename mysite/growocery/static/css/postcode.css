@@ -17,3 +17,31 @@ body {
 .postcode-title {
     display: flex;
 }
+
+#view-members-link {
+    height: auto;
+    display: flex;
+}
+
+#view-members-link a {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    margin-left: 25px;
+    color: #491C1D;
+    text-decoration: none;
+}
+#view-members-link a:hover {
+    text-decoration: underline;
+    color: #FF8321;
+}
+#grocery-groups {
+    display: grid;
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
+    grid-template-columns: 49% 49%;
+}
+.container {
+    display: inline-grid;
+    background-color: #FFF1E6;
+    border-radius: 15px;
+}
