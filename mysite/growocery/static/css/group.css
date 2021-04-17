@@ -178,6 +178,10 @@ input[type=submit]:hover {
     height: 150px;
 }
 
+.catalogue-item div {
+    margin-top: 5px;
+}
+
 .col-1 {
     background-color: #FFF1E6;
 }
