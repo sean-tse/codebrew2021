@@ -43,12 +43,23 @@ body {
 }
 .container {
     display: inline-grid;
-    background-color: #FFF1E6;
     border-radius: 15px;
     padding-left: 35px;
     padding-right: 35px;
     padding-top: 35px;
     padding-bottom: 25px;
+}
+.container.col-1 {
+    background-color: #FFF1E6;
+}
+.container.col-2 {
+    background-color: #FFF9E2;
+}
+.container.col-3 {
+    background-color: #F2FBE4;
+}
+.container.col-4 {
+    background-color: #FFEFEE;
 }
 img.group-image {
     height: 200px;
@@ -63,5 +74,31 @@ th {
 }
 button {
     width: 100%;
+}
+button:hover {
+    cursor: pointer;
+}
+.container.col-1 button {
     background-color: #FFC9B2;
+}
+.container.col-1 button:hover {
+    background-color: #FE9B71;
+}
+.container.col-2 button {
+    background-color: #FFE687;
+}
+.container.col-2 button:hover {
+    background-color: #FFD533;
+}
+.container.col-3 button {
+    background-color: #B9D192;
+}
+.container.col-3 button:hover {
+    background-color: #A8DD53;
+}
+.container.col-4 button {
+    background-color: #FFACA7;
+}
+.container.col-4 button:hover {
+    background-color: #FF7D75;
 }

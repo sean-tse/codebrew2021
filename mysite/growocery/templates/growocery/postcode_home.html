@@ -18,7 +18,7 @@
     {% if groups %}
     <div id='grocery-groups'>
         {% for group in groups %}
-        <div class="container">
+        <div class="container {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
             <!-- <h2>{{ group.id }}</h2> -->
             <div class='center'>
                 <img src="{% static 'growocery/images/grocery-stock/peach.png' %}" alt="" class='group-image'>
