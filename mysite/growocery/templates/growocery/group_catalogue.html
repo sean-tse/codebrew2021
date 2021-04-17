@@ -2,6 +2,7 @@
 
 {% block right-content %}
 
+{% load static %}
 <div class='search'>
   <label for="search-text">item search</label>
   <input type="text">
@@ -12,7 +13,7 @@
 
   {% for price in prices %}
   <div class="catalogue-item {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
-    <img src="{{price.item.img}}" alt="{{ price.item.name }}">
+    <img src="{% static 'growocery/' %}{{price.item.img}}"    alt="{{ price.item.name }}">
     <div>{{ price.item.name }}</div>
     <div class='small-text'>Added to shared list. Bulk buy option may be available.</div>
     <h3>${{price.price}}</h3>
