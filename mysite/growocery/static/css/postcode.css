@@ -7,6 +7,7 @@ body {
     background-color: white;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 100px;
     padding-left: 60px;
     padding-right: 60px;
     padding-top: 40px;
@@ -74,6 +75,7 @@ th {
 }
 button {
     width: 100%;
+    box-shadow: none;
 }
 button:hover {
     cursor: pointer;

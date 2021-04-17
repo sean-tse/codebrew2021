@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
-{% block style %}
 {% load static %}
+
+{% block style %}
 <link rel="stylesheet" href="{% static '/css/postcode.css' %}">
 {% endblock style %}
+ 
+{% block script %}
+<script src="{% static 'script/app.js' %}"></script>  
+{% endblock script%}
 
 {% block main-content %}
 
@@ -21,7 +26,7 @@
         <div class="container {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
             <!-- <h2>{{ group.id }}</h2> -->
             <div class='center'>
-                <img src="{% static 'growocery/images/grocery-stock/peach.png' %}" alt="" class='group-image'>
+                <!-- <img src="{% static 'growocery/images/grocery-stock/peach.png' %}" alt="" class='group-image'> -->
             </div>
             <h3>{{ group.store.name }}</h3>
             <table>
