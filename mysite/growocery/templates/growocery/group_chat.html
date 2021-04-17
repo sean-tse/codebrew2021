@@ -9,7 +9,7 @@
 
 {% block right-content %}
 
-<div class='chat-content'>
+<div id='chat-content'>
     {% for message in messages %}
     <div class="message-container">
         {% if message.sender.customerAccount == request.user%}
@@ -24,6 +24,7 @@
         {% endif %}
     </div>
     {% endfor %}
+    <div id="anchor"></div>
 </div>
 <div class="send-message">
     <form action="{% url 'group_chat' group.id %}" method="POST">
@@ -32,5 +33,10 @@
         <button type="submit">send message</button>
     </form>
 </div>
+
+<script>
+document.getElementById('chat-content').scrollTop = 9999999;
+console.log(document.getElementById('chat-content'))
+</script>
 
 {% endblock right-content %}
