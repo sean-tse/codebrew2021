@@ -28,6 +28,7 @@ th {
 
 td {
     padding-bottom: 15px;
+    padding-right: 10px;
 }
 
 .content-card {
@@ -39,6 +40,7 @@ td {
     margin-bottom: 100px;
     padding: 30px;
     border-radius: 30px;
+    display: flex;
 }
 
 .my-cart {
@@ -52,4 +54,37 @@ td {
 
 .cart-title {
     margin-bottom: 30px;
+}
+
+.main-area {
+    width: 70%;
+    padding-left: 40px;
+}
+
+.main-area-nav {
+    display: flex;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.main-area-nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.main-area-nav li {
+    margin: 0;
+    margin-right: 60px;
+    list-style-type: none;
+}
+
+.main-area-nav a {
+    font-size: 16px;
+    font-weight: 700;
+    color: #491C1D;
+}
+
+.main-area-nav a:hover {
+    text-decoration: underline;
 }

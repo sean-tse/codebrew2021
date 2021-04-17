@@ -1,46 +1,5 @@
-{% extends "base.html" %}
+{% extends "growocery/group.html" %}
 
-{% load static %}
-
-{% block style %}
-<link rel="stylesheet" href="{% static '/css/group.css' %}">
-{% endblock style %}
-
-{% block top-bar-title %}
-{{group.store.name}} List
-{% endblock top-bar-title %}
-
-{% block main-content %}
-
-<div class='content-card'>
-  <div class='my-cart'>
-    <div class='cart-title bold-body'>My Cart</div>
-    {% if myorder.prices.all %}
-    <table>
-      <tr>
-        <th>Item</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th></th>
-      </tr>
-      {% for order in myorder.prices.all %}
-      <tr>
-        <td>{{ order.item.name }}</td>
-        <td>{{ order.quantity }}</td>
-        <td>{{ order.price }}</td>
-        <td>
-          <a href="/growocery/minus/{{order.id}}/{{group.id}}/{{myorder.id}}">&#10006;</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <div id='empty-cart-message'>
-      Oops! Your cart is currently empty.\nVisit Catalogue to add grocery items to it. 
-    </div>
-    {% endif %}
-    
-  </div>
   <!-- {% if group %}
   <div class="container1">
     {% if not group.pickup.buyer %}
@@ -74,7 +33,3 @@
     {% endfor %}
   </div>
   {% endif %} -->
-
-</div>
-
-{% endblock main-content %}
