@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 
 class PostCodeCommunity(models.Model):
     postcode = models.CharField(max_length=4, validators=[RegexValidator(r'^\d{1,10}$')], blank=True)
-    
+
 
 class CustomerProfile(models.Model):
     customerAccount = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,7 +20,7 @@ class CustomerProfile(models.Model):
     bsb = models.CharField(max_length=6, validators=[RegexValidator(r'^\d{1,10}$')], blank=True)
     bankAccount = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,10}$')], blank=True)
     pcc = models.ForeignKey(PostCodeCommunity, on_delete=models.CASCADE, blank=True, null=True)
-    
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -28,7 +28,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.customerprofile.save()   
+    instance.customerprofile.save()
 
 
 class GroceryChain(models.Model):
@@ -37,9 +37,9 @@ class GroceryChain(models.Model):
         WOOLWORTHS = 'WOO', _('Woolworths')
         IGA = 'IGA', _('IGA')
         ALDI = 'ALD', _('ALDI')
-    
+
     chain = models.CharField(max_length=3, choices=ChainName.choices)
-    
+
 class DeliveryFee(models.Model):
     chain = models.ForeignKey(GroceryChain, on_delete=models.CASCADE)
     minPrice = models.DecimalField(decimal_places=2, max_digits=15)
@@ -53,22 +53,25 @@ class GroceryStore(models.Model):
 class Item(models.Model):
     chain = models.ForeignKey(GroceryChain, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    img = models.CharField(max_length=50)
+
+class Price(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=15)
     quantity = models.IntegerField()
-    img = models.CharField(max_length=50)
-    
+
 class Order(models.Model):
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
-    items = models.ManyToManyField(Item) 
+    prices = models.ManyToManyField(Price)
     orderTotal =  models.DecimalField(decimal_places=2, max_digits=15)
     invoiceGenerated = models.BooleanField(default=False)
-    
-    
+
+
 class Invoice(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
     amount =  models.DecimalField(decimal_places=2, max_digits=15)
-    
+
 class Cart(models.Model):
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE, blank=True, null=True)
     combinedOrder = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='combinedOrder', blank=True, null=True)
@@ -76,23 +79,19 @@ class Cart(models.Model):
     total = models.DecimalField(decimal_places=2, max_digits=15, blank=True, null=True)
     orderedStatus = models.BooleanField(default=False)
     orderDate = models.DateTimeField(blank=True, null=True)
-    
+
 
 class Pickup(models.Model):
     buyer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=True, null=True)
     locationDetails = models.CharField(max_length=300, blank=True, null=True, default="debug test")
     pickupWhen = models.DateTimeField(blank=True, null=True)
-    
+
 
 
 class CommunityGroceryGroup(models.Model):
     pcc = models.ForeignKey(PostCodeCommunity, on_delete=models.CASCADE)
     nextDeadline = models.DateTimeField()
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE) 
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE)
     pickup = models.ForeignKey(Pickup, on_delete=models.CASCADE, blank=True, null=True, related_name='pickup')
     volunteers = models.ManyToManyField(Pickup, blank=True, related_name='volunteers')
-    
-
-
-
