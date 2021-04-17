@@ -222,7 +222,7 @@ def add_one(request, price_id, group_id, order_id):
     price = get_object_or_404(Price, id=price_id) # price = Price.objects.filter(id=price_id)[0]
     myorder = get_object_or_404(Order, id=order_id) # myorder = Order.objects.filter(id=order_id)[0]
     OrderPrice.objects.create(order=myorder, price=price)
-    myorder.orderTotal += price.prices
+    myorder.orderTotal += price.price
     myorder.save()
     return redirect(f"/growocery/community/{group_id}/catalogue")
 
@@ -230,7 +230,7 @@ def add_one(request, price_id, group_id, order_id):
 def remove_one(request, price_id, group_id, order_id):
     price = get_object_or_404(Price, id=price_id) # Price.objects.filter(id=price_id)[0]
     myorder = get_object_or_404(Order, id=order_id) # Order.objects.filter(id=order_id)[0]
-    myorder.orderTotal -= price.prices
+    myorder.orderTotal -= price.price
     myorder.save()
     record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
     record.delete()
