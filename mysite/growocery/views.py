@@ -105,7 +105,9 @@ def group_catalogue(request, id):
     if request.user.is_authenticated:
         group = CommunityGroceryGroup.objects.filter(id=id)[0]
         prices = Price.objects.filter(item__chain=group.store.chain)
-        return render(request, 'growocery/group_catalogue.html', {'prices': prices})
+        
+        myorder = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)[0]
+        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder})
     else:
         return redirect('/growocery/login/')
     
