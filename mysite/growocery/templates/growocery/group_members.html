@@ -1,6 +1,18 @@
+{% extends "growocery/group.html" %}
+
+{% load static %}
+
+{% block right-content %}
+
 <div class="container2">
-    <h2>List Members</h2>
-    {% for order in group.cart.groupOrders.all %}
-    <h3>{{ order.customer.customerAccount.first_name }}</h3>
-    {% endfor %}
+    <div class='bold-body'>List Members</div>
+    <ul>
+      {% for order in group.cart.groupOrders.all %}
+      <li>
+        <span>{{ order.customer.customerAccount.first_name }} {{ order.customer.customerAccount.last_name }}</span>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
+
+{% endblock right-content %}

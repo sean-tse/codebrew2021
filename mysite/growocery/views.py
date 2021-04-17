@@ -14,7 +14,10 @@ from collections import defaultdict
 import math
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the grocery index.")
+    if request.user.is_authenticated:
+        customer = CustomerProfile.objects.filter(customerAccount_id=request.user)[0]
+        return redirect(f'/growocery/postcode/{customer.postcode}')
+    return redirect(login_view)
 
 def register(request):
     """
@@ -118,7 +121,13 @@ def group_catalogue(request, id):
     else:
         return redirect('/growocery/login/')
 
-
+def group_members(request, id):
+    if request.user.is_authenticated:
+        group = group =  get_object_or_404(CommunityGroceryGroup, id=id)
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        return render(request, 'growocery/group_members.html', {'myorder':myorder, 'group':group})
+    else:
+        return redirect('/growocery/login/')
 
 # knapsack problem lol
 # minimise cost

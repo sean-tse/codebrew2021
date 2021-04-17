@@ -40,6 +40,10 @@
                 <th>{{myorder.orderTotal}}</th>
             </tr>
         </table>
+        <div class='small-text cart-disclaimer'>This total is the ballpark price for the items. Upon the group grocery list deadline, there might be bulk buying options available so you might end up paying less. </div>
+        <button>
+            Confirm and pay
+        </button>
         {% else %}
         <div id='empty-cart-message' class='center'>
             Oops! Your cart is currently empty.<br />Visit Catalogue to add grocery items to it.
@@ -53,9 +57,9 @@
             <ul>
                 <li><a href="/growocery/community/{{group.id}}/detail">Details</a></li>
                 <li><a href="/growocery/community/{{group.id}}/catalogue">Catalogue</a></li>
-                <li><a href="">Grocery List</a></li>
+                <li><a href="/growocery/community/{{group.id}}/list">Grocery List</a></li>
                 <li><a href="">Group Chat</a></li>
-                <li><a href="">Members</a></li>
+                <li><a href="/growocery/community/{{group.id}}/members">Members</a></li>
             </ul>
         </div>
         <div>

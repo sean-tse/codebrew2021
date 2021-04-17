@@ -39,6 +39,10 @@ td {
     padding-right: 10px;
 }
 
+button {
+    width: 100%;
+}
+
 .content-card {
     width: auto;
     background-color: white;
@@ -174,6 +178,10 @@ input[type=submit]:hover {
     height: 150px;
 }
 
+.catalogue-item div {
+    margin-top: 5px;
+}
+
 .col-1 {
     background-color: #FFF1E6;
 }
@@ -217,4 +225,17 @@ input[type=submit]:hover {
 
 .search input[type=text] {
     width: 97%;
+}
+
+table {
+    width: 100%;
+}
+
+.bold-body.list-title {
+    margin-bottom: 35px;
+}
+
+.cart-disclaimer {
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
