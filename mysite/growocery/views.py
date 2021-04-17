@@ -107,7 +107,7 @@ def group_catalogue(request, id):
         prices = Price.objects.filter(item__chain=group.store.chain)
 
         myorder = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)[0]
-        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder})
+        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder, 'group':group})
     else:
         return redirect('/growocery/login/')
 
@@ -119,3 +119,16 @@ def group_list(request, id):
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder})
     else:
         return redirect('/growocery/login/')
+    
+def add_one(request, price_id, group_id, order_id):
+    price = Price.objects.filter(id=price_id)[0]
+    myorder = Order.objects.filter(id=order_id)[0]
+    myorder.prices.add(price)
+    return redirect(f"/growocery/community/{group_id}/catalogue")
+
+
+def remove_one(request, price_id, group_id, order_id):
+    price = Price.objects.filter(id=price_id)[0]
+    myorder = Order.objects.filter(id=order_id)[0]
+    myorder.prices.remove(price)
+    return redirect(f"/growocery/community/{group_id}/catalogue")

@@ -4,21 +4,29 @@
   <div class="card" style="background-color: White" onclick="">
     <div class="container">
       <h2>{{ price.item.name }}</h2>
+      <p>{{price.id}}</p>
       <p>{{price.item.img}}</p>
       <p>{{price.quantity}}</p>
       <p>{{price.price}}</p>
+      <a href= "/growocery/add/{{price.id}}/{{group.id}}/{{myorder.id}}">
+        <button id="add1">Add 1 to order list</button>
+    </a>
     </div>
   </div>
   {% endfor %} {% endif %}
 
   <h1>My current orders:</h1>
-  {% for price in myorders.prices %}
+  {% for price in myorder.prices.all %}
   <div class="card" style="background-color: White" onclick="">
     <div class="container">
-      <h2>{{ price.item.name }}</h2>
+      <h2>{{price.item.name }}</h2>
+      <p>{{price.id}}</p>
       <p>{{price.item.img}}</p>
       <p>{{price.quantity}}</p>
       <p>{{price.price}}</p>
+    <a href= "/growocery/minus/{{price.id}}/{{group.id}}/{{myorder.id}}">
+        <button id="minus1">Remove 1 from order list</button>
+    </a>
     </div>
   </div>
   {% endfor %}
