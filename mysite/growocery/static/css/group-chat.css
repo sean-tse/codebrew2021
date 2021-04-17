@@ -14,8 +14,33 @@
     background-color: #A8DD53;
 }
 
-
 .send-message input {
     width: 95%;
     margin-bottom: 15px;
+}
+
+.message-container {
+    width: 100%;
+    display: block;
+}
+
+.outgoing {
+    background-color: #F2FBE4;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.incoming {
+    background-color: #D8F1FF;
+    margin-top: 5px;
+}
+
+.message {
+    width: 60%;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 15px;
 }

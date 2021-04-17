@@ -11,15 +11,18 @@
 
 <div class='chat-content'>
     {% for message in messages %}
-    {% if message.sender.customerAccount == request.user%}
-    <div class="outgoing message">
-        {{ message.message }}
+    <div class="message-container">
+        {% if message.sender.customerAccount == request.user%}
+        <div class="outgoing message">
+            {{ message.message }}
+        </div>
+        {% else %}
+        <div class="small-text">{{ message.sender.customerAccount }}</div>
+        <div class="incoming message">
+            {{ message.message }}
+        </div>
+        {% endif %}
     </div>
-    {% else %}
-    <div class="incoming message">
-        {{ message.message }}
-    </div>
-    {% endif %}
     {% endfor %}
 </div>
 <div class="send-message">
