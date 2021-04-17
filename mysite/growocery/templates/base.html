@@ -11,9 +11,11 @@
         <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
         {% block style %}
         {% endblock style %}
-        <script src="{% static 'script/app.js' %}"></script>   
+        <script src="{% static 'script/app.js' %}"></script> 
+        <script>
         {% block script %}
-        {% endblock script%}
+        {% endblock script %}
+        </script>
     </head>
     <body>
         <div class='top-bar'>

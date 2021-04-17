@@ -8,18 +8,18 @@
 
 <div class='search'>
   <label for="search-text" value='search catalogue'>item search</label>
-  <input type="text">
+  <input id="search_here" type="text" placeholder='search' class='form-control' >
 </div>
 
 {% if prices %}
-<div class='catalogue-container'>
+<div class='catalogue-container' id='box'>
 
   {% for price in prices %}
   <div class="catalogue-item {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
     <div class="catalogue-image center">
       <img src="{% static 'growocery/' %}{{price.item.img}}" alt="{{ price.item.name }}">
     </div>
-    <div>{{ price.item.name }} ({{price.quantity}})</div>
+    <div class='item_name'>{{ price.item.name }} ({{price.quantity}})</div>
     <div class='small-text'>Added to shared list. Bulk buy option may be available.</div>
     <h3>${{price.price}}</h3>
     <div class='center'>
@@ -27,11 +27,43 @@
         <button id="add1">Add to cart</button>
       </a>
     </div>
-
   </div>
   {% endfor %}
 
 </div>
 {% endif %}
+
+<script>
+const data = '{{ pricesJson }}'
+const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+const n = Object.keys(rdata).length
+const groupId = '{{ group.id }}'
+const myorderId = '{{ myorder.id}}'
+
+const input = document.getElementById("search_here")
+const items = document.getElementsByClassName("catalogue-item")
+console.log(items)
+let filteredItems = []
+
+input.addEventListener('keyup', function(e) {
+  for (i=0; i<n; i++) {
+    filteredItems = Object.values(rdata).filter(item => item['itemName'].toLowerCase().includes(e.target.value.toLowerCase()))
+  }
+  console.log(filteredItems)
+  for (i=0; i<items.length; i++) {
+      if (items[i].innerHTML.toLowerCase().includes(e.target.value)) {
+        items[i].style.display = "block"
+        console.log('this ran')
+      } else {
+        items[i].style.display = "none"
+      }
+    }
+  if (!e.target.value) {
+    for (i=0; i<items.length; i++) {
+      items[i].style.display = "block"
+    }
+  }
+})
+</script>
 
 {% endblock right-content %}

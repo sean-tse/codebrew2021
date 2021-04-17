@@ -12,6 +12,9 @@ from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFe
 
 from collections import defaultdict
 import math
+import json
+import decimal
+from django.core import serializers
 
 def index(request):
     if request.user.is_authenticated:
@@ -115,9 +118,19 @@ def group_catalogue(request, id):
     if request.user.is_authenticated:
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # group = CommunityGroceryGroup.objects.filter(id=id)[0]
         prices = Price.objects.filter(item__chain=group.store.chain)
-
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
-        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder, 'group':group})
+        pricesDict = {}
+        for index, price in enumerate(prices):
+            itemDict = {}
+            itemDict['id'] = price.id
+            itemDict['itemName'] = price.item.name
+            itemDict['qty'] = price.quantity
+            itemDict['price'] = str(price.price)
+            itemDict['img'] = price.item.img
+            pricesDict[index] = itemDict
+        pricesJson = json.dumps(pricesDict)
+        context = {'prices': prices, 'myorder':myorder, 'group':group, 'pricesJson': pricesJson}
+        return render(request, 'growocery/group_catalogue.html', context)
     else:
         return redirect('/growocery/login/')
 
