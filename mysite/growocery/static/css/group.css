@@ -3,6 +3,11 @@ body {
 }
 
 table a {
+    color: #491C1D;
+    font-size: 20px;
+}
+
+table a:hover {
     color: red;
     font-size: 20px;
 }
@@ -22,7 +27,7 @@ th {
 }
 
 td {
-    padding-bottom: 10px;
+    padding-bottom: 15px;
 }
 
 .content-card {
