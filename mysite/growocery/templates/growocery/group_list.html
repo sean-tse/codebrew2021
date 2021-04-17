@@ -1,5 +1,12 @@
+{% extends "growocery/group.html" %}
+
+{% load static %}
+{% load mathfilters %}
+
+{% block right-content %}
+
 {% if group %}
-    <div class="container1">
+    <!-- <div class="container1">
         <h1>Group List</h1>
         <h2>Group Shopping Cart</h2>
         {% for order in group.cart.groupOrders.all %}
@@ -11,19 +18,42 @@
         <p>{{price.price}}</p>
      
         {% endfor %}{% endfor %}
-    </div>
-    <div class="container2">
-        <h1>Combined List</h1>
-        <h2>Group Shopping Cart</h2>
+    </div> -->
+    <div class='bold-body list-title'>Group List</div>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Unit Price</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
         {% for price in group.cart.combinedOrder.prices.all %}
-        <h2>{{price.item.name }}</h2>
-        <p>{{price.id}}</p>
-        <p>{{price.item.img}}</p>
-        <p>{{price.quantity}}</p>
-        <p>{{price.price}}</p>
-     
+        <tr>
+            <td>{{price.item.name}}</td>
+            {% with numerator=12 denominator=3 %}
+            <td>{{price.price | div:price.quantity }}</td>
+            {% endwith %}
+            <td>{{price.quantity}}</td>
+            <td>{{price.price}}</td>
+        </tr>
         {% endfor %}
+        <tr>
+            <th>Original Total</th>
+            <td></td>
+            <td></td>
+            <th>{{original_cost}}</th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td></td>
+            <td></td>
+            <th>{{new_cost}}</th>
+        </tr>
+    </table>
+    <div id='savings-card'>
+        <div class='bold-body center'>Savings</div>
+        <div class='center'>You have saved ${{original_cost | sub:new_cost}} with us!</div>
     </div>
 {% endif %}
-<h2>{{original_cost}}</h2>
-<h2>{{new_cost}}</h2>
+
+{% endblock right-content %}

@@ -39,6 +39,11 @@ td {
     padding-right: 10px;
 }
 
+button {
+    width: 100%;
+    box-shadow: none;
+}
+
 .content-card {
     width: auto;
     background-color: white;
@@ -67,6 +72,7 @@ td {
 .main-area {
     width: 70%;
     padding-left: 40px;
+    padding-right: 30px;
 }
 
 .main-area-nav {
@@ -115,7 +121,7 @@ td {
     background-color: #FFF9E2
 }
 
-input[type=submit] {
+#buyer button {
     background-color: #FFC9B2;
     font-size: 16px;
     font-weight: 700;
@@ -126,6 +132,11 @@ input[type=submit] {
     padding-top: 15px;
     padding-bottom: 15px;
     margin-top: 15px;
+}
+
+#buyer button:hover {
+    cursor: pointer;
+    background-color: #FE9B71;
 }
 
 input[type=submit]:hover {
@@ -152,6 +163,8 @@ input[type=submit]:hover {
     grid-template-columns: 49% 49%;
     grid-column-gap: 15px;
     grid-row-gap: 15px;
+    overflow: scroll;
+    max-height: 100vh;
 }
 
 .catalogue-item {
@@ -172,6 +185,10 @@ input[type=submit]:hover {
 
 .catalogue-item img {
     height: 150px;
+}
+
+.catalogue-item div {
+    margin-top: 5px;
 }
 
 .col-1 {
@@ -217,4 +234,65 @@ input[type=submit]:hover {
 
 .search input[type=text] {
     width: 97%;
+}
+
+table {
+    width: 100%;
+}
+
+.bold-body.list-title {
+    margin-bottom: 35px;
+}
+
+.cart-disclaimer {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.overlay-modal {
+    background-color: white;
+    width: 40%;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 45px;
+    padding-right: 45px;
+    border-radius: 15px;
+    margin-top: 15%;
+}
+
+.overlay-modal button {
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.modal-text {
+    margin-bottom: 25px;
+}
+
+.overlay-modal.row {
+    margin-top: 30px;
+    margin-bottom: none;
+}
+
+.cancel-button {
+    font-size: 25px;
+    text-align: right;
+}
+
+.cancel-button:hover {
+    color: red;
+    cursor: pointer;
+}
+
+#savings-card {
+    background-color: #F2FBE4;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+#savings-card div.bold-body {
+    margin-bottom: 15px;
 }

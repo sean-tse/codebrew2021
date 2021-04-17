@@ -1,0 +1,42 @@
+{% extends "growocery/group.html" %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static '/css/group.css' %}">
+<link rel="stylesheet" href="{% static '/css/group-chat.css' %}">
+{% endblock style %}
+
+{% block right-content %}
+
+<div id='chat-content'>
+    {% for message in messages %}
+    <div class="message-container">
+        {% if message.sender.customerAccount == request.user%}
+        <div class="outgoing message">
+            {{ message.message }}
+        </div>
+        {% else %}
+        <div class="small-text">{{ message.sender.customerAccount }}</div>
+        <div class="incoming message">
+            {{ message.message }}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <div id="anchor"></div>
+</div>
+<div class="send-message">
+    <form action="{% url 'group_chat' group.id %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="chat-box" placeholder="type message here">
+        <button type="submit">send message</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('chat-content').scrollTop = 9999999;
+console.log(document.getElementById('chat-content'))
+</script>
+
+{% endblock right-content %}

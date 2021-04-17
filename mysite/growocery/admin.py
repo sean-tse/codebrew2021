@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, Message
 
 
 admin.site.register(PostCodeCommunity)
@@ -15,4 +15,4 @@ admin.site.register(Cart)
 admin.site.register(Pickup)
 admin.site.register(CommunityGroceryGroup)
 admin.site.register(Price)
-
+admin.site.register(Message)

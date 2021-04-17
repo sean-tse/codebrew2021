@@ -8,13 +8,19 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import PostCodeCommunity
 import datetime
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice, Message
 
 from collections import defaultdict
 import math
+import json
+import decimal
+from django.core import serializers
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the grocery index.")
+    if request.user.is_authenticated:
+        customer = get_object_or_404(CustomerProfile, customerAccount_id = request.user.id) 
+        return redirect(f'/growocery/postcode/{customer.postcode}/')
+    return redirect(login_view)
 
 def register(request):
     """
@@ -96,24 +102,70 @@ def postcode_home(request, postcode):
 
 def group_detail(request, id):
     if request.user.is_authenticated:
+        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        groupStatus = get_group_status(group, myorder)
         if request.method == "GET":
-            group = CommunityGroceryGroup.objects.filter(id=id)[0]
-            myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
-            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder, 'status': groupStatus})
         elif request.method == "POST":
-            group = CommunityGroceryGroup.objects.filter(id=id)[0]
+            pickupLocation = request.POST.get("pickupLocation", "")
+            pickupWhen = request.POST.get('pickupWhen')
             group.pickup.buyer = request.user.customerprofile
-            return render(request, 'growocery/group_detail.html', {'group': group})
+            group.pickup.locationDetails = pickupLocation
+            group.pickup.pickupWhen = pickupWhen
+            group.pickup.save()
+            group.save()
+            groupStatus = get_group_status(group, myorder)
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder, 'status': groupStatus})
     else:
         return redirect('/growocery/login/')
+
+def get_group_status(group, order):
+    if not group.pickup.buyer:
+        return 1
+    return 2
 
 def group_catalogue(request, id):
     if request.user.is_authenticated:
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # group = CommunityGroceryGroup.objects.filter(id=id)[0]
         prices = Price.objects.filter(item__chain=group.store.chain)
-
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
-        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder, 'group':group})
+        pricesDict = {}
+        for index, price in enumerate(prices):
+            itemDict = {}
+            itemDict['id'] = price.id
+            itemDict['itemName'] = price.item.name
+            itemDict['qty'] = price.quantity
+            itemDict['price'] = str(price.price)
+            itemDict['img'] = price.item.img
+            pricesDict[index] = itemDict
+        pricesJson = json.dumps(pricesDict)
+        context = {'prices': prices, 'myorder':myorder, 'group':group, 'pricesJson': pricesJson}
+        return render(request, 'growocery/group_catalogue.html', context)
+    else:
+        return redirect('/growocery/login/')
+
+def group_members(request, id):
+    if request.user.is_authenticated:
+        group = group =  get_object_or_404(CommunityGroceryGroup, id=id)
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        return render(request, 'growocery/group_members.html', {'myorder':myorder, 'group':group})
+    else:
+        return redirect('/growocery/login/')
+
+def group_chat(request, id):
+    if request.user.is_authenticated:
+        group = get_object_or_404(CommunityGroceryGroup, id=id)
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        messages = Message.objects.filter(group=id).order_by('timestamp')
+        if request.method == "GET":
+            return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group, 'messages': messages})
+        if request.method == "POST":
+            new_message_text = request.POST.get("chat-box", "")
+            new_message, created = Message.objects.get_or_create(group=group, sender=request.user.customerprofile, message=new_message_text)
+            messages = Message.objects.filter(group=id).order_by('timestamp')
+            return render(request, 'growocery/group_chat.html', {'myorder':myorder, 'group':group, 'messages': messages})
+        
     else:
         return redirect('/growocery/login/')
 
@@ -149,19 +201,19 @@ def group_list(request, id):
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
         group.cart.groupOrders.add(myorder)
-        
+
         # create new combined Order
         if group.cart.combinedOrder:
             group.cart.combinedOrder.delete()
         group.cart.combinedOrder = Order.objects.create(store=group.store)
-        
+
         breakdown = defaultdict(int) # key: item id, value: total quantity
         original_cost = 0
         for order in group.cart.groupOrders.all():
             for price in order.prices.all():
                 original_cost += price.price
                 breakdown[price.item.id] += price.quantity
-                
+
         print(breakdown)
         new_cost = 0
         for item_id in breakdown.keys():
@@ -181,11 +233,7 @@ def group_list(request, id):
         print(f"Original cost: ${original_cost}")
         print(f"New cost: ${new_cost}")
         print(f"Savings: ${original_cost - new_cost}")
-        
-        
-        
-        
-        
+
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder, 'original_cost':original_cost, 'new_cost': new_cost})
     else:
         return redirect('/growocery/login/')
@@ -194,12 +242,16 @@ def add_one(request, price_id, group_id, order_id):
     price = get_object_or_404(Price, id=price_id) # price = Price.objects.filter(id=price_id)[0]
     myorder = get_object_or_404(Order, id=order_id) # myorder = Order.objects.filter(id=order_id)[0]
     OrderPrice.objects.create(order=myorder, price=price)
+    myorder.orderTotal += price.price
+    myorder.save()
     return redirect(f"/growocery/community/{group_id}/catalogue")
 
 
 def remove_one(request, price_id, group_id, order_id):
     price = get_object_or_404(Price, id=price_id) # Price.objects.filter(id=price_id)[0]
     myorder = get_object_or_404(Order, id=order_id) # Order.objects.filter(id=order_id)[0]
+    myorder.orderTotal -= price.price
+    myorder.save()
     record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
     record.delete()
     return redirect(f"/growocery/community/{group_id}/catalogue")

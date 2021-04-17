@@ -8,13 +8,20 @@
         </title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
         {% block style %}
         {% endblock style %}
-        <script src="{% static 'script/app.js' %}"></script>   
+        <script src="{% static 'script/app.js' %}"></script> 
+        <script>
         {% block script %}
-        {% endblock script%}
+        {% endblock script %}
+        </script>
     </head>
     <body>
+        <div id='overlay-bg'>
+            {% block overlay-content %}
+            {% endblock overlay-content %}
+        </div>
         <div class='top-bar'>
             {% block top-bar %}
             <div class='row'>
