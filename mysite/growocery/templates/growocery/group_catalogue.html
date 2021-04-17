@@ -13,7 +13,9 @@
 
   {% for price in prices %}
   <div class="catalogue-item {% cycle 'col-1' 'col-2' 'col-3' 'col-4' %}">
-    <img src="{% static 'growocery/' %}{{price.item.img}}"    alt="{{ price.item.name }}">
+    <div class="catalogue-image center">
+      <img src="{% static 'growocery/' %}{{price.item.img}}" alt="{{ price.item.name }}">
+    </div>
     <div>{{ price.item.name }} ({{price.quantity}})</div>
     <div class='small-text'>Added to shared list. Bulk buy option may be available.</div>
     <h3>${{price.price}}</h3>
