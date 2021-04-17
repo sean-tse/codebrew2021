@@ -96,7 +96,8 @@ def group_detail(request, id):
     if request.user.is_authenticated:
         if request.method == "GET":
             group = CommunityGroceryGroup.objects.filter(id=id)[0]
-            return render(request, 'growocery/group_detail.html', {'group': group})
+            myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
         elif request.method == "POST":
             group = CommunityGroceryGroup.objects.filter(id=id)[0]
             group.pickup.buyer = request.user.customerprofile
