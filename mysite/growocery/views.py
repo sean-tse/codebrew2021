@@ -115,7 +115,8 @@ def group_list(request, id):
     if request.user.is_authenticated:
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
 
-        myorder = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)[0]
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        group.cart.groupOrders.add(myorder)
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder})
     else:
         return redirect('/growocery/login/')
