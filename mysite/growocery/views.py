@@ -14,7 +14,10 @@ from collections import defaultdict
 import math
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the grocery index.")
+    if request.user.is_authenticated:
+        customer = CustomerProfile.objects.filter(customerAccount_id=request.user)[0]
+        return redirect(f'/growocery/postcode/{customer.postcode}')
+    return redirect(login_view)
 
 def register(request):
     """
