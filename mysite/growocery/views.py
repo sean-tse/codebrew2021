@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from .models import PostCodeCommunity
 import datetime
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price
 
 
 def index(request):
