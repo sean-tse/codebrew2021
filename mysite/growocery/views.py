@@ -202,4 +202,4 @@ def remove_one(request, price_id, group_id, order_id):
     myorder = get_object_or_404(Order, id=order_id) # Order.objects.filter(id=order_id)[0]
     record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
     record.delete()
-    return redirect(f"/growocery/community/{group_id}/detail")
+    return redirect(f"/growocery/community/{group_id}/catalogue")

@@ -132,3 +132,89 @@ input[type=submit]:hover {
     background-color: #FE9B71;
     cursor: pointer;
 }
+
+#status-title {
+    margin-bottom: 15px;
+}
+
+#progress-bg {
+    background-color: #FFFAFA;
+    margin-bottom: 15px;
+}
+
+#progress {
+    height:24px;
+    background-color:#6FCF97;
+}
+
+.catalogue-container {
+    display: grid;
+    grid-template-columns: 49% 49%;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+}
+
+.catalogue-item {
+    display: inline-grid;
+    border-radius: 15px;
+    padding: 20px
+}
+
+.catalogue-item h3 {
+    margin-top: 15px;
+    margin-bottom: 10px
+}
+
+.catalogue-item button {
+    width: 100%;
+    box-shadow: none;
+}
+
+.catalogue-item img {
+    height: 150px;
+}
+
+.col-1 {
+    background-color: #FFF1E6;
+}
+
+.col-2 {
+    background-color: #FFF9E2;
+}
+
+.col-3 {
+    background-color: #F2FBE4;
+}
+
+.col-4 {
+    background-color: #FFEFEE;
+}
+
+.col-1 button {
+    background-color: #FFC9B2;
+}
+.col-1 button:hover {
+    background-color: #FE9B71;
+}
+.col-2 button {
+    background-color: #FFE687;
+}
+.col-2 button:hover {
+    background-color: #FFD533;
+}
+.col-3 button {
+    background-color: #B9D192;
+}
+.col-3 button:hover {
+    background-color: #A8DD53;
+}
+.col-4 button {
+    background-color: #FFACA7;
+}
+.col-4 button:hover {
+    background-color: #FF7D75;
+}
+
+.search input[type=text] {
+    width: 97%;
+}
