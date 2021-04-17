@@ -18,8 +18,8 @@ from django.core import serializers
 
 def index(request):
     if request.user.is_authenticated:
-        customer = CustomerProfile.objects.filter(customerAccount_id=request.user)[0]
-        return redirect(f'/growocery/postcode/{customer.postcode}')
+        customer = get_object_or_404(CustomerProfile, customerAccount_id = request.user.id) 
+        return redirect(f'/growocery/postcode/{customer.postcode}/')
     return redirect(login_view)
 
 def register(request):
