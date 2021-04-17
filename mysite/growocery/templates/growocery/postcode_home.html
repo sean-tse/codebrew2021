@@ -48,7 +48,7 @@
                 </tr>
             </table>      
             <p class='small-text'>
-                {{ group.cart.groupOrders | length }} people have contributed to this grocery list this week
+                {{ group.cart.groupOrders.all | length }} people have contributed to this grocery list this week
             </p>
             <button onclick="location.href='/growocery/community/{{group.id}}/detail'">View List</button>
         </div>
