@@ -12,4 +12,18 @@
      
         {% endfor %}{% endfor %}
     </div>
+    <div class="container2">
+        <h1>Combined List</h1>
+        <h2>Group Shopping Cart</h2>
+        {% for price in group.cart.combinedOrder.prices.all %}
+        <h2>{{price.item.name }}</h2>
+        <p>{{price.id}}</p>
+        <p>{{price.item.img}}</p>
+        <p>{{price.quantity}}</p>
+        <p>{{price.price}}</p>
+     
+        {% endfor %}
+    </div>
 {% endif %}
+<h2>{{original_cost}}</h2>
+<h2>{{new_cost}}</h2>

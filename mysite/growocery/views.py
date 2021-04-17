@@ -10,6 +10,8 @@ from .models import PostCodeCommunity
 import datetime
 from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice
 
+from collections import defaultdict
+import math
 
 def index(request):
     return HttpResponse("Hello, world. You're at the grocery index.")
@@ -115,13 +117,76 @@ def group_catalogue(request, id):
     else:
         return redirect('/growocery/login/')
 
+# knapsack problem lol
+# minimise cost
+# input: total quantity
+# prices for varying quantities
+# solution price_id, quantity
+def solve_cost(total_quant, options):
+    min_cost = math.inf
+    final_sol = None
+    # base case: not a solution
+    if total_quant < 0:
+        return min_cost, final_sol
+    # base case: solution found
+    if total_quant == 0:
+        return 0, defaultdict(int)
+    for option in options:
+        remainder = total_quant - option.quantity
+        cost, sol = solve_cost(remainder, options)
+        if sol is None:
+            continue
+        cost += float(option.price)
+        sol[option.id] += 1
+        if cost < min_cost:
+            min_cost = cost
+            final_sol = sol
+    return min_cost, final_sol
+
+
 def group_list(request, id):
     if request.user.is_authenticated:
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
-
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
         group.cart.groupOrders.add(myorder)
-        return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder})
+        
+        # create new combined Order
+        if group.cart.combinedOrder:
+            group.cart.combinedOrder.delete()
+        group.cart.combinedOrder = Order.objects.create(store=group.store)
+        
+        breakdown = defaultdict(int) # key: item id, value: total quantity
+        original_cost = 0
+        for order in group.cart.groupOrders.all():
+            for price in order.prices.all():
+                original_cost += price.price
+                breakdown[price.item.id] += price.quantity
+                
+        print(breakdown)
+        new_cost = 0
+        for item_id in breakdown.keys():
+            total_quant = breakdown[item_id]
+            options = get_list_or_404(Price, item__id=item_id)
+            min_cost, final_sol = solve_cost(total_quant, tuple(options))
+            print(f"Item name: {get_object_or_404(Item, id=item_id).name}")
+            print(f"Required quantity: {total_quant}")
+            for pid in final_sol.keys():
+                price = get_object_or_404(Price, id=pid)
+                quant = final_sol[pid]
+                new_cost += price.price*quant
+                print(f"Buy {price.item.name} x {price.quantity} x {quant}")
+                for i in range(quant):
+                    OrderPrice.objects.create(order=group.cart.combinedOrder, price=price)
+
+        print(f"Original cost: ${original_cost}")
+        print(f"New cost: ${new_cost}")
+        print(f"Savings: ${original_cost - new_cost}")
+        
+        
+        
+        
+        
+        return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder, 'original_cost':original_cost, 'new_cost': new_cost})
     else:
         return redirect('/growocery/login/')
 
