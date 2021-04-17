@@ -39,9 +39,22 @@ body {
     grid-column-gap: 25px;
     grid-row-gap: 25px;
     grid-template-columns: 49% 49%;
+    margin-top: 15px;
 }
 .container {
     display: inline-grid;
     background-color: #FFF1E6;
     border-radius: 15px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+.image-container {
+    width: 100%;
+    background-color: red;
+    justify-content: center;
+}
+img.group-image {
+    height: 200px;
 }

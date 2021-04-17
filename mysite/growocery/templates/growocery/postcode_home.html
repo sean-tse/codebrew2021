@@ -19,8 +19,12 @@
     <div id='grocery-groups'>
         {% for group in groups %}
         <div class="container">
-            <h2>{{ group.store.name }}</h2>
-            <h2>{{ group.id }}</h2>
+            <h3>{{ group.store.name }}</h3>
+            <!-- <h2>{{ group.id }}</h2> -->
+            <div class='center'>
+                <img src="{% static 'growocery/images/grocery-stock/peach.png' %}" alt="" class='group-image'>
+            </div>
+            
         </div>
         {% endfor %}
     </div>
