@@ -5,10 +5,12 @@ html {
 }
 h1 {
     font-size: 50px;
+    margin: 0;
 }
 h3 {
     font-size: 26px;
     font-weight: 700;
+    margin: 0;
 }
 button {
     background-color: #F16E1C;
@@ -82,4 +84,19 @@ nav li a {
 nav li a:hover {
     text-decoration: underline;
     color: #FF8321;
+}
+.center {
+    width: 100%;
+    text-align: center;
+}
+table {
+    font-weight: normal;
+    align-content: left;
+}
+th {
+    text-align: left;
+    font-weight: 400;
+}
+.small-text {
+    font-size: 13px;
 }

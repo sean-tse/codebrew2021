@@ -7,6 +7,7 @@ body {
     background-color: white;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 100px;
     padding-left: 60px;
     padding-right: 60px;
     padding-top: 40px;
@@ -16,4 +17,90 @@ body {
 
 .postcode-title {
     display: flex;
+}
+
+#view-members-link {
+    height: auto;
+    display: flex;
+}
+
+#view-members-link a {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    margin-left: 25px;
+    color: #491C1D;
+    text-decoration: none;
+}
+#view-members-link a:hover {
+    text-decoration: underline;
+    color: #FF8321;
+}
+#grocery-groups {
+    display: grid;
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
+    grid-template-columns: 49% 49%;
+    margin-top: 15px;
+}
+.container {
+    display: inline-grid;
+    border-radius: 15px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+.container.col-1 {
+    background-color: #FFF1E6;
+}
+.container.col-2 {
+    background-color: #FFF9E2;
+}
+.container.col-3 {
+    background-color: #F2FBE4;
+}
+.container.col-4 {
+    background-color: #FFEFEE;
+}
+img.group-image {
+    height: 200px;
+    margin-bottom: 24px;
+}
+table {
+    margin-top: 15px;
+    margin-bottom: 5px;   
+}
+th {
+    padding-bottom: 5px;
+}
+button {
+    width: 100%;
+    box-shadow: none;
+}
+button:hover {
+    cursor: pointer;
+}
+.container.col-1 button {
+    background-color: #FFC9B2;
+}
+.container.col-1 button:hover {
+    background-color: #FE9B71;
+}
+.container.col-2 button {
+    background-color: #FFE687;
+}
+.container.col-2 button:hover {
+    background-color: #FFD533;
+}
+.container.col-3 button {
+    background-color: #B9D192;
+}
+.container.col-3 button:hover {
+    background-color: #A8DD53;
+}
+.container.col-4 button {
+    background-color: #FFACA7;
+}
+.container.col-4 button:hover {
+    background-color: #FF7D75;
 }
