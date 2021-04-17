@@ -55,18 +55,26 @@ class Item(models.Model):
     chain = models.ForeignKey(GroceryChain, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     img = models.CharField(max_length=50)
+    
+class OrderPrice(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    price = models.ForeignKey('Price', on_delete=models.CASCADE)
+    count = models.IntegerField(blank=True, null=True)
 
 class Price(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=15)
     quantity = models.IntegerField()
 
+    
 class Order(models.Model):
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE, blank=True, null=True)
-    prices = models.ManyToManyField(Price)
+    prices = models.ManyToManyField(Price, through=OrderPrice)
     orderTotal =  models.DecimalField(decimal_places=2, max_digits=15, default=0)
     invoiceGenerated = models.BooleanField(default=False)
+
+
 
 
 class Invoice(models.Model):

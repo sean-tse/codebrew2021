@@ -5,10 +5,10 @@ from django.http import HttpResponse
 
 from .forms import UserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import PostCodeCommunity
 import datetime
-from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price
+from .models import PostCodeCommunity, CustomerProfile, GroceryChain, DeliveryFee, GroceryStore, Item, Order, Invoice, Cart, Pickup, CommunityGroceryGroup, Price, OrderPrice
 
 
 def index(request):
@@ -81,41 +81,59 @@ def postcode_home(request, postcode):
         pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
         labels = []
         for (code, label) in GroceryChain.ChainName.choices:
-            chain = GroceryChain.objects.get_or_create(chain=code)[0]
-            store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
-            cart = Cart.objects.get_or_create(store=store)[0]
-            pickup=Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)[0]
-            group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance
-            labels.append(label)
-            label = label
-        groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
+            chain, boo = GroceryChain.objects.get_or_create(chain=code)
+            store, boo = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")
+            cart, boo = Cart.objects.get_or_create(store=store)
+            pickup, boo =Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)
+            group, boo  = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance
 
-        return render(request, 'growocery/postcode_home.html', {'groups': groups, 'postcode': postcode, "labels": labels})
+        groups = get_list_or_404(CommunityGroceryGroup, pcc=pcc) # CommunityGroceryGroup.objects.filter(pcc=pcc)
+        return render(request, 'growocery/postcode_home.html', {'groups': groups})
     else:
         return redirect("/growocery/login/")
 
 def group_detail(request, id):
     if request.user.is_authenticated:
-        group = CommunityGroceryGroup.objects.filter(id=id)[0]
-        return render(request, 'growocery/group_detail.html', {'group': group})
+        if request.method == "GET":
+            group = CommunityGroceryGroup.objects.filter(id=id)[0]
+            return render(request, 'growocery/group_detail.html', {'group': group})
+        elif request.method == "POST":
+            group = CommunityGroceryGroup.objects.filter(id=id)[0]
+            group.pickup.buyer = request.user.customerprofile
+            return render(request, 'growocery/group_detail.html', {'group': group})
     else:
         return redirect('/growocery/login/')
 
 def group_catalogue(request, id):
     if request.user.is_authenticated:
-        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        group =  get_object_or_404(CommunityGroceryGroup, id=id) # group = CommunityGroceryGroup.objects.filter(id=id)[0]
         prices = Price.objects.filter(item__chain=group.store.chain)
 
-        myorder = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)[0]
-        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder})
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder, 'group':group})
     else:
         return redirect('/growocery/login/')
 
 def group_list(request, id):
     if request.user.is_authenticated:
-        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
 
-        myorder = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)[0]
+        myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
+        group.cart.groupOrders.add(myorder)
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder})
     else:
         return redirect('/growocery/login/')
+
+def add_one(request, price_id, group_id, order_id):
+    price = get_object_or_404(Price, id=price_id) # price = Price.objects.filter(id=price_id)[0]
+    myorder = get_object_or_404(Order, id=order_id) # myorder = Order.objects.filter(id=order_id)[0]
+    OrderPrice.objects.create(order=myorder, price=price)
+    return redirect(f"/growocery/community/{group_id}/catalogue")
+
+
+def remove_one(request, price_id, group_id, order_id):
+    price = get_object_or_404(Price, id=price_id) # Price.objects.filter(id=price_id)[0]
+    myorder = get_object_or_404(Order, id=order_id) # Order.objects.filter(id=order_id)[0]
+    record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
+    record.delete()
+    return redirect(f"/growocery/community/{group_id}/catalogue")
