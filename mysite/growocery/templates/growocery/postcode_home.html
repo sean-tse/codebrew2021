@@ -1,8 +1,23 @@
-{% if groups %}
+{% extends "base.html" %}
+
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/postcode.css' %}">
+{% endblock style %}
+
+{% block main-content %}
+
+<div class='content-card'>
+
+    {% if groups %}
     {%for group in groups%}
     <div class="container">
         <h2>{{ group.store.name }}</h2>
         <h2>{{ group.id }}</h2>
     </div>
     {% endfor %}
-{% endif %}
+    {% endif %}
+
+</div>
+
+{% endblock main-content %}

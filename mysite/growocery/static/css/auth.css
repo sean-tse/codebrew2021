@@ -9,9 +9,6 @@ li, .helptext {
 p {
     margin-top: 35px;
 }
-/* h3 {
-    color: #F16E1C;
-} */
 ul {
     margin-bottom: 20px;
     margin-block-start: 0;
@@ -20,7 +17,7 @@ ul {
 img {
     width: 145px;
 }
-.form-card {
+.content-card {
     width: 40%;
     background-color: white;
     margin: auto;

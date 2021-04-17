@@ -43,3 +43,40 @@ label {
     font-weight: bold;
     text-transform: uppercase;
 }
+.top-bar {
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 40px;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+.logo-long img {
+    width: 220px;
+}
+nav {
+    display: flex;
+    height: 100%;
+}
+nav ul {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-10px);
+}
+nav li {
+    margin-left: 60px;
+    list-style-type: none;
+}
+nav li a {
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #491C1D;
+}
+nav li a:hover {
+    text-decoration: underline;
+    color: #FF8321;
+}

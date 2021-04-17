@@ -5,10 +5,13 @@
 <link rel="stylesheet" href="{% static '/css/auth.css' %}">
 {% endblock %}}
 
+{% block top-bar %}
+{% endblock top-bar %}
+
 {% block main-content %}
-<div class='form-card'>
+<div class='content-card'>
     <div class='center'>
-        <img src="{% static 'growocery/images/logo-square.png' %}" alt="Growocery logo">
+        <img src="{% static 'growocery/images/logo-square.png' %}" alt="Growocery logo" class='logo-long'>
         <h3>
             {% block form-title %}
             {% endblock %}

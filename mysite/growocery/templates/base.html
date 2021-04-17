@@ -7,12 +7,29 @@
             {% endblock %}
         </title>
         {% load static %}
-        <link rel="stylesheet" href="{% static '/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
         {% block style %}
-        {% endblock %}
+        {% endblock style %}
     </head>
     <body>
+        <div class='top-bar'>
+            {% block top-bar %}
+            <div class='row'>
+                <div class='logo-long'>
+                    <img src="{% static 'growocery/images/logo-long.png' %}" alt="Growocery Logo">
+                </div>
+                <div class='nav-bar'>
+                    <nav>
+                        <ul class='row'>
+                            <li><a href="">Profile</a></li>
+                            <li><a href="/growocery/logout">Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {% endblock top-bar %}
+        </div>
         {% block main-content %}
-        {% endblock %}
+        {% endblock main-content %}
     </body>
 </html>

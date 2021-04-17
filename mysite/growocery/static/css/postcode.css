@@ -1,0 +1,15 @@
+body {
+    background-color: #F8F8F8;
+}
+
+.content-card {
+    width: 70%;
+    background-color: white;
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 40px;
+    padding-bottom: 45px;
+    border-radius: 30px;
+}
