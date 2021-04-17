@@ -102,8 +102,9 @@ def group_detail(request, id):
             return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
         elif request.method == "POST":
             group = CommunityGroceryGroup.objects.filter(id=id)[0]
+            myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
             group.pickup.buyer = request.user.customerprofile
-            return render(request, 'growocery/group_detail.html', {'group': group})
+            return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
     else:
         return redirect('/growocery/login/')
 
@@ -116,6 +117,8 @@ def group_catalogue(request, id):
         return render(request, 'growocery/group_catalogue.html', {'prices': prices, 'myorder':myorder, 'group':group})
     else:
         return redirect('/growocery/login/')
+
+
 
 # knapsack problem lol
 # minimise cost
@@ -149,19 +152,19 @@ def group_list(request, id):
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
         group.cart.groupOrders.add(myorder)
-        
+
         # create new combined Order
         if group.cart.combinedOrder:
             group.cart.combinedOrder.delete()
         group.cart.combinedOrder = Order.objects.create(store=group.store)
-        
+
         breakdown = defaultdict(int) # key: item id, value: total quantity
         original_cost = 0
         for order in group.cart.groupOrders.all():
             for price in order.prices.all():
                 original_cost += price.price
                 breakdown[price.item.id] += price.quantity
-                
+
         print(breakdown)
         new_cost = 0
         for item_id in breakdown.keys():
@@ -181,11 +184,11 @@ def group_list(request, id):
         print(f"Original cost: ${original_cost}")
         print(f"New cost: ${new_cost}")
         print(f"Savings: ${original_cost - new_cost}")
-        
-        
-        
-        
-        
+
+
+
+
+
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder, 'original_cost':original_cost, 'new_cost': new_cost})
     else:
         return redirect('/growocery/login/')
