@@ -29,7 +29,7 @@
 <div class="send-message">
     <form action="{% url 'group_chat' group.id %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="chat-box">
+        <input type="text" name="chat-box" placeholder="type message here">
         <button type="submit">send message</button>
     </form>
 </div>
