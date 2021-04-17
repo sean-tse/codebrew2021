@@ -15,6 +15,7 @@ urlpatterns = [
     path('postcode/<int:postcode>/', views.postcode_home, name='postcode_home'),
     path('community/<int:id>/detail', views.group_detail, name='group_detail'),
     path('community/<int:id>/catalogue', views.group_catalogue, name='group_catalogue'),
+    path('community/<int:id>/list', views.group_list, name='group_list'),
     path('load/', load_view, name='load')
 ]
 
