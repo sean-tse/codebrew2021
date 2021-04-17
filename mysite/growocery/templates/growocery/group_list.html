@@ -49,13 +49,11 @@
             <td></td>
             <th>{{new_cost}}</th>
         </tr>
-        <tr>
-            <th>Total Savings</th>
-            <td></td>
-            <td></td>
-            <th>{{original_cost | sub:new_cost}}</th>
-        </tr>
     </table>
+    <div id='savings-card'>
+        <div class='bold-body center'>Savings</div>
+        <div class='center'>You have saved ${{original_cost | sub:new_cost}} with us!</div>
+    </div>
 {% endif %}
 
 {% endblock right-content %}
