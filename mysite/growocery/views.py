@@ -88,7 +88,8 @@ def postcode_home(request, postcode):
             group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance 
             
         groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
-        return render(request, 'growocery/postcode_home.html', {'groups': groups})
+
+        return render(request, 'growocery/postcode_home.html', {'groups': groups, 'postcode': postcode})
     else:
         return redirect("/growocery/login/")
         
