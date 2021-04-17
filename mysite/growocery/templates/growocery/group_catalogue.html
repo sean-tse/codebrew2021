@@ -42,18 +42,12 @@ const myorderId = '{{ myorder.id}}'
 
 const input = document.getElementById("search_here")
 const items = document.getElementsByClassName("catalogue-item")
-console.log(items)
 let filteredItems = []
 
 input.addEventListener('keyup', function(e) {
-  for (i=0; i<n; i++) {
-    filteredItems = Object.values(rdata).filter(item => item['itemName'].toLowerCase().includes(e.target.value.toLowerCase()))
-  }
-  console.log(filteredItems)
   for (i=0; i<items.length; i++) {
-      if (items[i].innerHTML.toLowerCase().includes(e.target.value)) {
+      if (items[i].innerHTML.toLowerCase().includes(e.target.value.toLowerCase())) {
         items[i].style.display = "block"
-        console.log('this ran')
       } else {
         items[i].style.display = "none"
       }

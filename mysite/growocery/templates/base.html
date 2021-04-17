@@ -18,6 +18,10 @@
         </script>
     </head>
     <body>
+        <div id='overlay-bg'>
+            {% block overlay-content %}
+            {% endblock overlay-content %}
+        </div>
         <div class='top-bar'>
             {% block top-bar %}
             <div class='row'>

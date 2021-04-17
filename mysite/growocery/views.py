@@ -102,14 +102,21 @@ def postcode_home(request, postcode):
 
 def group_detail(request, id):
     if request.user.is_authenticated:
+        groupStatus = 1
         if request.method == "GET":
             group = CommunityGroceryGroup.objects.filter(id=id)[0]
             myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
             return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
         elif request.method == "POST":
+            pickupLocation = request.POST.get("pickupLocation", "")
+            pickupWhen = request.POST.get('pickupWhen')
             group = CommunityGroceryGroup.objects.filter(id=id)[0]
             myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
             group.pickup.buyer = request.user.customerprofile
+            group.pickup.locationDetails = pickupLocation
+            group.pickup.pickupWhen = pickupWhen
+            group.pickup.save()
+            group.save()
             return render(request, 'growocery/group_detail.html', {'group': group, 'myorder': myorder})
     else:
         return redirect('/growocery/login/')
@@ -206,10 +213,6 @@ def group_list(request, id):
         print(f"Original cost: ${original_cost}")
         print(f"New cost: ${new_cost}")
         print(f"Savings: ${original_cost - new_cost}")
-
-
-
-
 
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder, 'original_cost':original_cost, 'new_cost': new_cost})
     else:

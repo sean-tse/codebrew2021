@@ -1,5 +1,29 @@
 {% extends "growocery/group.html" %}
 
+{% block overlay-content %}
+<div class='overlay-modal center'>
+  <div class='cancel-button'>
+    <a  class='cancel-button' onclick='volunteerBuyerCancelCallback()'>&#10006;</a>
+  </div>
+  <div class='center bold-body modal-text'>Are you sure you want to volunteer as buyer?</div>
+  <div class='modal-text small-text'>
+    Buyers will receive all the items in the group order either via delivery or in-store pickup. Everyone in the group
+    will pickup their items from a location nominated by the buyer.
+  </div>
+
+  <form action="{% url 'group_detail' group.id %}" method="post">
+    {% csrf_token %}
+    <label for="pickup location">Pickup Location</label>
+    <input type="text" name="pickupLocation">
+    <label for="pickup day">Pickup Day</label>
+    <input type="date" name="pickupWhen">
+    <div class='center'>
+      <button type=submit name='confirm'>confirm</button>
+    </div>
+  </form>
+</div>
+{% endblock overlay-content %}
+
 {% block right-content %}
 {% if group %}
 
@@ -41,10 +65,7 @@
     </tr>
   </table>
   {% if not group.pickup.buyer %}
-  <form action="{% url 'group_detail' group.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Volunteer as buyer">
-  </form>
+  <button onclick="volunteerBuyerCallback()">volunteer as buyer</button>
   {% endif %}
 </div>
 
