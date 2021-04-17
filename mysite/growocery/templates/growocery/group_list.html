@@ -2,6 +2,14 @@
     <div class="container1">
         <h1>Group List</h1>
         <h2>Group Shopping Cart</h2>
-        <h3>{{ group.cart.groupOrders }}</h3>
+        {% for order in group.cart.groupOrders.all %}
+        {% for price in order.prices.all %}
+        <h2>{{price.item.name }}</h2>
+        <p>{{price.id}}</p>
+        <p>{{price.item.img}}</p>
+        <p>{{price.quantity}}</p>
+        <p>{{price.price}}</p>
+     
+        {% endfor %}{% endfor %}
     </div>
 {% endif %}
