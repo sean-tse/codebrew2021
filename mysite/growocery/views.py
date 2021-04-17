@@ -83,7 +83,8 @@ def postcode_home(request, postcode):
         chain = GroceryChain.objects.get_or_create(chain=code)[0]
         store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
         cart = Cart.objects.get_or_create(store=store)[0]
-        group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=Pickup.objects.create(), nextDeadline=datetime.date.today()) # 1 week in advance 
+        pickup=Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)[0]
+        group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance 
         
     groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
     return render(request, 'growocery/postcode_home.html', {'groups': groups})
@@ -92,6 +93,9 @@ def postcode_home(request, postcode):
 def group_detail(request, id):
     group = CommunityGroceryGroup.objects.filter(id=id)[0]
     return render(request, 'growocery/group_detail.html', {'group': group})
+
+def group_catalogue(request, id):
+    group = CommunityGroceryGroup.objects.filter(id=id)[0]
     
     
     
