@@ -19,7 +19,7 @@ def register(request):
     Create a new account.
     """
     if request.user.is_authenticated:
-        return redirect('/growocery')
+        return redirect('/growocery/')
     else:
         if request.method == 'POST':
             user_form = UserForm(request.POST)
