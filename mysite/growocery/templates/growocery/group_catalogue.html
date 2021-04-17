@@ -1,0 +1,10 @@
+{% if prices %}
+    {%for price in prices%}
+    <div class="container">
+        <h2>{{ price.item.name }}</h2>
+        <h2>{{ price.item.img}}</h2>
+        <h2>{{ price.quantity}}</h2>
+        <h2>{{ price.price}}</h2>
+    </div>
+    {% endfor %}
+{% endif %}

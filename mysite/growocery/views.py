@@ -96,6 +96,8 @@ def group_detail(request, id):
 
 def group_catalogue(request, id):
     group = CommunityGroceryGroup.objects.filter(id=id)[0]
+    prices = Price.objects.filter(item__chain=group.store.chain)
+    return render(request, 'growocery/group_catalogue.html', {'prices': prices})
     
     
     
