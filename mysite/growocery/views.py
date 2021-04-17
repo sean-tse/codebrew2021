@@ -77,27 +77,37 @@ def logout_view(request):
         return redirect('/growocery/login/')
     
 def postcode_home(request, postcode):
-    pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
-    
-    for (code, label) in GroceryChain.ChainName.choices:
-        chain = GroceryChain.objects.get_or_create(chain=code)[0]
-        store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
-        cart = Cart.objects.get_or_create(store=store)[0]
-        pickup=Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)[0]
-        group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance 
+    if request.user.is_authenticated:
+        pcc = PostCodeCommunity.objects.get_or_create(postcode=postcode)[0]
         
-    groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
-    return render(request, 'growocery/postcode_home.html', {'groups': groups})
+        for (code, label) in GroceryChain.ChainName.choices:
+            chain = GroceryChain.objects.get_or_create(chain=code)[0]
+            store = GroceryStore.objects.get_or_create(chain=chain, postcode=postcode, name = f"{label}  {postcode}")[0]
+            cart = Cart.objects.get_or_create(store=store)[0]
+            pickup=Pickup.objects.get_or_create(pickupWhen = datetime.date.today()+datetime.timedelta(days=7), store=store)[0]
+            group = CommunityGroceryGroup.objects.get_or_create(pcc=pcc, cart=cart, store=store, pickup=pickup, nextDeadline=datetime.date.today()+datetime.timedelta(days=6)) # 1 week in advance 
+            
+        groups = CommunityGroceryGroup.objects.filter(pcc=pcc)
+        return render(request, 'growocery/postcode_home.html', {'groups': groups})
+    else:
+        return redirect("/growocery/login/")
+        
 
 
 def group_detail(request, id):
-    group = CommunityGroceryGroup.objects.filter(id=id)[0]
-    return render(request, 'growocery/group_detail.html', {'group': group})
+    if request.user.is_authenticated:
+        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        return render(request, 'growocery/group_detail.html', {'group': group})
+    else:
+        return redirect('/growocery/login/')
 
 def group_catalogue(request, id):
-    group = CommunityGroceryGroup.objects.filter(id=id)[0]
-    prices = Price.objects.filter(item__chain=group.store.chain)
-    return render(request, 'growocery/group_catalogue.html', {'prices': prices})
+    if request.user.is_authenticated:
+        group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        prices = Price.objects.filter(item__chain=group.store.chain)
+        return render(request, 'growocery/group_catalogue.html', {'prices': prices})
+    else:
+        return redirect('/growocery/login/')
     
     
     
