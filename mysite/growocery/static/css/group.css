@@ -39,6 +39,10 @@ td {
     padding-right: 10px;
 }
 
+button {
+    width: 100%;
+}
+
 .content-card {
     width: auto;
     background-color: white;
@@ -225,4 +229,9 @@ table {
 
 .bold-body.list-title {
     margin-bottom: 35px;
+}
+
+.cart-disclaimer {
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
