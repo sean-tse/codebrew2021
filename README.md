@@ -1,7 +1,7 @@
 # codebrew2021
 
 ### Live website
-growocery.herokuapp.com
+[growocery.herokuapp.com](growocery.herokuapp.com)
 
 ### How to run the app
 1. Create a Python virtual environment.
