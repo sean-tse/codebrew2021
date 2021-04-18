@@ -298,6 +298,6 @@ table {
 }
 
 button:disabled {
-    background-color: grey;
+    background-color: #D7CDCB;
     cursor: default;
 }
