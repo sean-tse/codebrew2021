@@ -319,6 +319,8 @@ def confirm(request, group_id):
         bestOption = handle_delivery(group, group.pickup.window1, group.pickup.window2)
         myOrder = get_object_or_404(Order, customer=request.user.customerprofile, store=group.store)
         invoice = get_object_or_404(Invoice, customer=request.user.customerprofile, order=myOrder)
+        myOrder.invoiceGenerated = True
+        myOrder.save()
         print(bestOption)
         return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myOrder':myOrder})
     return redirect('/growocery/login/')
