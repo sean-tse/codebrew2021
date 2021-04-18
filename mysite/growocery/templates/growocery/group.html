@@ -29,9 +29,11 @@
                 <td>{{ order.item.name }}</td>
                 <td>{{ order.quantity }}</td>
                 <td>{{ order.price }}</td>
+                {% if not myorder.invoiceGenerated %}
                 <td>
                     <a href="/growocery/minus/{{order.id}}/{{group.id}}/{{myorder.id}}">&#10006;</a>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
             <tr>
@@ -42,9 +44,15 @@
         </table>
         <div class='small-text cart-disclaimer'>This total is the ballpark price for the items. Upon the group grocery list deadline, there might be bulk buying options available so you might end up paying less. This figure does not include the delivery fee. </div>
         <a href= "/growocery/confirm/{{group.id}}/">
-            <button id= "confirm-pay-button">
+            {% if not myorder.invoiceGenerated %}
+            <button id= "confirm-pay-button" onclick="confirmOrderCallback()">
                 Confirm and pay
             </button>
+            {% else %}
+            <button disabled=true>
+                Order confirmed
+            </button>
+            {% endif %}
         </a>
         {% else %}
         <div id='empty-cart-message' class='center'>
@@ -76,15 +84,14 @@
 
 </div>
 <script>
-    var myorder = '{{myorder}}'
+    var invoiceGenerated = '{{ myorder.invoiceGenerated }}'
     const confirmPayButton = document.getElementById("confirm-pay-button")
-    console.log(myorder.invoiceGenerated)
-    if (myorder.invoiceGenerated) {
+    console.log(invoiceGenerated)
+    if (invoiceGenerated == true) {
         confirmPayButton.disabled = true
     } else {
         confirmPayButton.disabled = false
     }
-    
 </script>
 
 {% endblock main-content %}

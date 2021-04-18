@@ -23,9 +23,11 @@
     <div class='small-text'>Added to shared list. Bulk buy option may be available.</div>
     <h3>${{price.price}}</h3>
     <div class='center'>
+      {% if not myorder.invoiceGenerated %}
       <a href= "/growocery/add/{{price.id}}/{{group.id}}/{{myorder.id}}">
         <button id="add1">Add to cart</button>
       </a>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
