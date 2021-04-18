@@ -321,6 +321,8 @@ def confirm(request, group_id):
         invoice = get_object_or_404(Invoice, customer=request.user.customerprofile, order=myOrder)
         myOrder.invoiceGenerated = True
         myOrder.save()
-        print(bestOption)
-        return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myorder':myOrder})
+        savings = myOrder.orderTotal - invoice.amount
+        if bestOption:
+            savings += bestOption.fee - bestOption.fee / group.cart.groupOrders.count + 2
+        return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myorder':myOrder, 'savings': savings})
     return redirect('/growocery/login/')
