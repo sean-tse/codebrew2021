@@ -24,3 +24,4 @@ python manage.py runserver
 ```
 
 ### Access populated suburb as an example
+Create a new account with the postcode 2148 to see the application working in action.
