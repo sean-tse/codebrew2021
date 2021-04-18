@@ -44,7 +44,8 @@
         <a href= "/growocery/confirm/{{group.id}}/">
             <button>
                 Confirm and pay
-            </button></a>
+            </button>
+        </a>
         {% else %}
         <div id='empty-cart-message' class='center'>
             Oops! Your cart is currently empty.<br />Visit Catalogue to add grocery items to it.
@@ -61,6 +62,9 @@
                 <li><a href="/growocery/community/{{group.id}}/list">Grocery List</a></li>
                 <li><a href="/growocery/community/{{group.id}}/chat">Group Chat</a></li>
                 <li><a href="/growocery/community/{{group.id}}/members">Members</a></li>
+                {% if myorder.invoiceGenerated %}
+                <li><a href="/growocery/confirm/{{group.id}}">Invoice</a></li>
+                {% endif %}
             </ul>
         </div>
         <div>

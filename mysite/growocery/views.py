@@ -322,5 +322,5 @@ def confirm(request, group_id):
         myOrder.invoiceGenerated = True
         myOrder.save()
         print(bestOption)
-        return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myOrder':myOrder})
+        return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myorder':myOrder})
     return redirect('/growocery/login/')

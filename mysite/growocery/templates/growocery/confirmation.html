@@ -1,11 +1,72 @@
-{% load mathfilters %}
-{% if bestOption %}
-    <h1>total delivery fee: {{bestOption.fee}}</h1>
-    <h1>your share: {{bestOption.fee|div:group.cart.groupOrders.count}}</h1>
-{% endif %}
-{% for price in myOrder.prices.all %}
-    {{price.item.name}}
-{% endfor %}
+{% extends "growocery/group.html" %}
 
-<h1>og order price: {{myOrder.orderTotal}}</h1>
-<h1>final order price: {{invoice.amount}}</h1>
+{% load static %}
+{% load mathfilters %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static '/css/group.css' %}">
+{% endblock style %}
+
+{% block right-content %}
+
+<div class='order-confirmation'>
+    <div class="bold-body">Confirmed Order</div>
+    <br>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Unit Price</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+        {% for price in myorder.prices.all %}
+        <tr>
+            <td>{{price.item.name}}</td>
+            <td>{{price.price}}</td>
+            <td>{{price.quantity}}</td>
+            <td>{{price.price}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Delivery</td>
+            <td>
+                {% if bestOption %}
+                {{bestOption.fee}}
+                {% else %}
+                0.00
+                {% endif %}
+            </td>
+            <td>1</td>
+            <td>
+                {% if bestOption %}
+                {{bestOption.fee|div:group.cart.groupOrders.count}}
+                {% else %}
+                0.00
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Original Total</th>
+            <td></td>
+            <td></td>
+            <th>{{myorder.orderTotal}}</th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td></td>
+            <td></td>
+            <th>{{invoice.amount}}</th>
+        </tr>
+    </table>
+    <div id='savings-card'>
+        <div class='bold-body center'>Savings</div>
+        {% if bestOption %}
+        {% with myfee as %}
+        <div class='center'>You have saved ${{myorder.orderTotal | add:bestOption.fee | sub:invoice.amount | sub:}} with us!</div>
+        {% else %}
+        <div class='center'>You have saved ${{myorder.orderTotal | sub:invoice.amount}} with us!</div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock right-content %}
