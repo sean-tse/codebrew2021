@@ -22,7 +22,7 @@
         {% for price in myorder.prices.all %}
         <tr>
             <td>{{price.item.name}}</td>
-            <td>{{price.price}}</td>
+            <td>{{price.price | div:price.quantity|floatformat:2 }}</td>
             <td>{{price.quantity}}</td>
             <td>{{price.price}}</td>
         </tr>
