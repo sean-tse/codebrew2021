@@ -42,7 +42,7 @@
         </table>
         <div class='small-text cart-disclaimer'>This total is the ballpark price for the items. Upon the group grocery list deadline, there might be bulk buying options available so you might end up paying less. </div>
         <a href= "/growocery/confirm/{{group.id}}/">
-            <button>
+            <button id= "confirm-pay-button">
                 Confirm and pay
             </button>
         </a>
@@ -75,5 +75,16 @@
     </div>
 
 </div>
+<script>
+    var myorder = '{{myorder}}'
+    const confirmPayButton = document.getElementById("confirm-pay-button")
+    console.log(myorder.invoiceGenerated)
+    if (myorder.invoiceGenerated) {
+        confirmPayButton.disabled = true
+    } else {
+        confirmPayButton.disabled = false
+    }
+    
+</script>
 
 {% endblock main-content %}

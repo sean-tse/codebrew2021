@@ -60,7 +60,13 @@
             <th>Original Total</th>
             <td></td>
             <td></td>
-            <th>{{myorder.orderTotal}}</th>
+            <th>
+                {% if bestOption %} 
+                {{myorder.orderTotal|add:bestOption.fee}}
+                {% else %}
+                {{myorder.orderTotal}}
+                {% endif %}
+            </th>
         </tr>
         <tr>
             <th>Total</th>

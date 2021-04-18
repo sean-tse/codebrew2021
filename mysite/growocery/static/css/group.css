@@ -296,3 +296,8 @@ table {
 #savings-card div.bold-body {
     margin-bottom: 15px;
 }
+
+button:disabled {
+    background-color: grey;
+    cursor: default;
+}

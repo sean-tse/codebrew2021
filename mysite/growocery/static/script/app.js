@@ -8,7 +8,7 @@ function volunteerBuyerCancelCallback() {
     overlay.style.display = "none"
 }
 
-function confirmOrderCallback() {
-    const overlay = document.getElementById("overlay-bg")
-    overlay.style.display = "block"
-}
+// function confirmOrderCallback() {
+//     const overlay = document.getElementById("confirm-pay-button")
+//     overlay.style.display = "block"
+// }
