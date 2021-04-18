@@ -323,6 +323,6 @@ def confirm(request, group_id):
         myOrder.save()
         savings = myOrder.orderTotal - invoice.amount
         if bestOption:
-            savings += bestOption.fee - bestOption.fee / group.cart.groupOrders.count + 2
+            savings += bestOption.fee - bestOption.fee / group.cart.groupOrders.count() 
         return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myorder':myOrder, 'savings': savings})
     return redirect('/growocery/login/')
