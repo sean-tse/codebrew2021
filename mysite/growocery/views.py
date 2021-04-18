@@ -148,6 +148,8 @@ def group_detail(request, id):
         return redirect('/growocery/login/')
 
 def get_group_status(group, order):
+    if order.invoiceGenerated:
+        return 4
     if not group.pickup.buyer:
         return 1
     return 2
