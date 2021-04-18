@@ -62,9 +62,9 @@
             <td></td>
             <th>
                 {% if bestOption %} 
-                {{myorder.orderTotal|add:bestOption.fee}}
+                {{og_total}}
                 {% else %}
-                {{myorder.orderTotal}}
+                {{og_total}}
                 {% endif %}
             </th>
         </tr>
@@ -72,7 +72,7 @@
             <th>Total</th>
             <td></td>
             <td></td>
-            <th>{{invoice.amount}}</th>
+            <th>{{new_total}}</th>
         </tr>
     </table>
     <div id='savings-card'>
