@@ -31,7 +31,7 @@
         <tr>
             <td>{{price.item.name}}</td>
             {% with numerator=12 denominator=3 %}
-            <td>{{price.price | div:price.quantity }}</td>
+            <td>{{price.price | div:price.quantity|floatformat:2 }}</td>
             {% endwith %}
             <td>{{price.quantity}}</td>
             <td>{{price.price}}</td>
