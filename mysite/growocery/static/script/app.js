@@ -8,7 +8,13 @@ function volunteerBuyerCancelCallback() {
     overlay.style.display = "none"
 }
 
-// function confirmOrderCallback() {
-//     const overlay = document.getElementById("confirm-pay-button")
-//     overlay.style.display = "block"
-// }
+function confirmOrderCallback() {
+    var invoiceGenerated = '{{ myorder.invoiceGenerated }}'
+    const confirmPayButton = document.getElementById("confirm-pay-button")
+    console.log(invoiceGenerated)
+    if (invoiceGenerated == true) {
+        confirmPayButton.disabled = true
+    } else {
+        confirmPayButton.disabled = false
+    }
+}
