@@ -27,6 +27,17 @@
             <td>{{price.price}}</td>
         </tr>
         {% endfor %}
+        <!-- <tr>
+            <td>Total Delivery</td>
+            <td>
+                {% if bestOption %}
+                {{bestOption.fee}}
+                {% else %}
+                0.00
+                {% endif %}
+            </td>
+            <td>1</td> 
+        </tr> -->
         <tr>
             <td>Delivery</td>
             <td>
@@ -36,9 +47,9 @@
                 0.00
                 {% endif %}
             </td>
-            <td>1</td>
+            <td>{{1|div:group.cart.groupOrders.count}}</td>
             <td>
-                {% if bestOption %}
+                {% if bestOption %} 
                 {{bestOption.fee|div:group.cart.groupOrders.count}}
                 {% else %}
                 0.00
@@ -59,15 +70,15 @@
         </tr>
     </table>
     <div id='savings-card'>
+        {% with myfee=bestOption.fee|div:group.cart.groupOrders.count %}
         <div class='bold-body center'>Savings</div>
         {% if bestOption %}
-        {% with myfee=bestOption.fee|div:group.cart.groupOrders.count %}
         <div class='center'>You have saved ${{myorder.orderTotal | add:bestOption.fee | sub:invoice.amount | sub:myfee}} with us!</div>
-        {% endwith %}
+        
         {% else %}
         <div class='center'>You have saved ${{myorder.orderTotal | sub:invoice.amount}} with us!</div>
         {% endif %}
     </div>
 </div>
-
+{% endwith %}
 {% endblock right-content %}
