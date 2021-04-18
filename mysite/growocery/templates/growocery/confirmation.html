@@ -72,12 +72,7 @@
     <div id='savings-card'>
         {% with myfee=bestOption.fee|div:group.cart.groupOrders.count %}
         <div class='bold-body center'>Savings</div>
-        {% if bestOption %}
-        <div class='center'>You have saved ${{myorder.orderTotal | add:bestOption.fee | sub:invoice.amount | sub:myfee}} with us!</div>
-        
-        {% else %}
-        <div class='center'>You have saved ${{myorder.orderTotal | sub:invoice.amount}} with us!</div>
-        {% endif %}
+        <div class='center'>You have saved ${{savings}} with us!</div>
     </div>
 </div>
 {% endwith %}
