@@ -1,0 +1,11 @@
+{% load mathfilters %}
+{% if bestOption %}
+    <h1>total delivery fee: {{bestOption.fee}}</h1>
+    <h1>your share: {{bestOption.fee|div:group.cart.groupOrders.count}}</h1>
+{% endif %}
+{% for price in myOrder.prices.all %}
+    {{price.item.name}}
+{% endfor %}
+
+<h1>og order price: {{myOrder.orderTotal}}</h1>
+<h1>final order price: {{invoice.amount}}</h1>

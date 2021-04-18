@@ -20,7 +20,8 @@ urlpatterns = [
     path('community/<int:id>/chat', views.group_chat, name='group_chat'),
     path('load/', load_view, name='load'),
     path('add/<int:price_id>/<int:group_id>/<int:order_id>', views.add_one, name='add_one'),
-    path('minus/<int:price_id>/<int:group_id>/<int:order_id>', views.remove_one, name='remove_one')
+    path('minus/<int:price_id>/<int:group_id>/<int:order_id>', views.remove_one, name='remove_one'),
+    path('confirm/<int:group_id>/', views.confirm, name='confirm'),
 ]
 
 

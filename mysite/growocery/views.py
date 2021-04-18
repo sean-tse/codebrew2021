@@ -100,9 +100,34 @@ def postcode_home(request, postcode):
     else:
         return redirect("/growocery/login/")
 
+def handle_delivery(group, delivery1, delivery2): #2021-04-18T11:06 %Y-%m-%dT%H:%M
+    print('hello')
+    bestFee = math.inf
+    bestOption = None
+    if delivery1 and delivery2:
+        # best delivery
+        window = (delivery2 - delivery1) /datetime.timedelta(hours=1) #datetime.datetime.strptime(delivery2,'%Y-%m-%dT%H:%M') - datetime.datetime.strptime(delivery1,'%Y-%m-%dT%H:%M')
+        print(str(delivery2 - delivery1))
+        print(delivery2)
+        print(delivery1)
+        print(window)
+        print(group.cart.combinedOrder.orderTotal)
+        options = DeliveryFee.objects.filter(chain=group.store.chain ,minPrice__lte = group.cart.combinedOrder.orderTotal, window__lte = datetime.timedelta(hours=12))
+    
+        if options.count() > 0:
+            for option in options.all():
+                if option.fee < bestFee:
+                    bestFee = option.fee
+                    bestOption = option
+            group.pickup.fee = bestOption
+        print(bestOption)
+    return bestOption
+    
+    
 def group_detail(request, id):
     if request.user.is_authenticated:
         group = CommunityGroceryGroup.objects.filter(id=id)[0]
+        print(group.cart.combinedOrder)
         myorder, boo = Order.objects.get_or_create(store=group.store, customer=request.user.customerprofile)
         groupStatus = get_group_status(group, myorder)
         if request.method == "GET":
@@ -113,6 +138,8 @@ def group_detail(request, id):
             group.pickup.buyer = request.user.customerprofile
             group.pickup.locationDetails = pickupLocation
             group.pickup.pickupWhen = pickupWhen
+            group.pickup.window1 = request.POST.get("startdelivery")
+            group.pickup.window2 = request.POST.get("enddelivery")
             group.pickup.save()
             group.save()
             groupStatus = get_group_status(group, myorder)
@@ -196,6 +223,25 @@ def solve_cost(total_quant, options):
     return min_cost, final_sol
 
 
+def invoice(order, overall_sol):
+    total_principle = 0
+    for price in order.prices.all():
+        item_id = price.item.id
+        sol = overall_sol[item_id]
+        item_quant = 0
+        item_cost = 0
+        for pid in sol.keys():
+            iprice = get_object_or_404(Price, id=pid)
+            quant = sol[pid]
+            item_quant += iprice.quantity*quant
+            item_cost += iprice.price*quant
+        unit_cost = item_cost/item_quant
+        total_principle += price.quantity*unit_cost
+    
+    Invoice.objects.filter(order=order, customer=order.customer).delete()
+    new_invoice = Invoice.objects.create(order=order, customer=order.customer, amount=total_principle)
+    return new_invoice
+
 def group_list(request, id):
     if request.user.is_authenticated:
         group =  get_object_or_404(CommunityGroceryGroup, id=id) # CommunityGroceryGroup.objects.filter(id=id)[0]
@@ -203,8 +249,8 @@ def group_list(request, id):
         group.cart.groupOrders.add(myorder)
 
         # create new combined Order
-        if group.cart.combinedOrder:
-            group.cart.combinedOrder.delete()
+        # if group.cart.combinedOrder:
+        #     group.cart.combinedOrder.delete()
         group.cart.combinedOrder = Order.objects.create(store=group.store)
 
         breakdown = defaultdict(int) # key: item id, value: total quantity
@@ -216,10 +262,12 @@ def group_list(request, id):
 
         print(breakdown)
         new_cost = 0
+        overall_sol = {} # item_id to {price_id: quantity}
         for item_id in breakdown.keys():
             total_quant = breakdown[item_id]
             options = get_list_or_404(Price, item__id=item_id)
             min_cost, final_sol = solve_cost(total_quant, tuple(options))
+            overall_sol[item_id] = final_sol
             print(f"Item name: {get_object_or_404(Item, id=item_id).name}")
             print(f"Required quantity: {total_quant}")
             for pid in final_sol.keys():
@@ -233,7 +281,14 @@ def group_list(request, id):
         print(f"Original cost: ${original_cost}")
         print(f"New cost: ${new_cost}")
         print(f"Savings: ${original_cost - new_cost}")
-
+        group.cart.combinedOrder.orderTotal = new_cost
+        print(group.cart.combinedOrder.orderTotal)
+        group.cart.combinedOrder.save()
+        group.cart.save()
+        group.save()
+        
+        i = invoice(myorder, overall_sol)
+        
         return render(request, 'growocery/group_list.html', {'group': group, 'myorder': myorder, 'original_cost':original_cost, 'new_cost': new_cost})
     else:
         return redirect('/growocery/login/')
@@ -255,3 +310,15 @@ def remove_one(request, price_id, group_id, order_id):
     record = get_list_or_404(OrderPrice, order=myorder, price=price)[0]
     record.delete()
     return redirect(f"/growocery/community/{group_id}/catalogue")
+
+
+def confirm(request, group_id):
+    if request.user.is_authenticated:
+        group_list(request, group_id) # reloads grocery list
+        group =  get_object_or_404(CommunityGroceryGroup, id=group_id) 
+        bestOption = handle_delivery(group, group.pickup.window1, group.pickup.window2)
+        myOrder = get_object_or_404(Order, customer=request.user.customerprofile, store=group.store)
+        invoice = get_object_or_404(Invoice, customer=request.user.customerprofile, order=myOrder)
+        print(bestOption)
+        return render(request, 'growocery/confirmation.html', context={'group': group, 'bestOption':bestOption, 'invoice': invoice, 'myOrder':myOrder})
+    return redirect('/growocery/login/')

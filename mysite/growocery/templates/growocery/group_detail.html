@@ -8,13 +8,18 @@
   <div class='center bold-body modal-text'>Are you sure you want to volunteer as buyer?</div>
   <div class='modal-text small-text'>
     Buyers will receive all the items in the group order either via delivery or in-store pickup. Everyone in the group
-    will pickup their items from a location nominated by the buyer. This action cannot be undone.
+    will pickup their items from a location nominated by the buyer. This action cannot be undone. Please provide a time 
+    window at which you will be available to receive the delivery. If you plan on using Click & Collect, leave it blank.
   </div>
 
   <form action="{% url 'group_detail' group.id %}" method="post">
     {% csrf_token %}
     <label for="pickup location">Pickup Location</label>
     <input type="text" name="pickupLocation">
+    <label for="delivery start">Start Delivery</label>
+    <input type="datetime-local" name="startdelivery" id="time1">
+    <label for="delivery end">End Delivery</label>
+    <input type="datetime-local" name="enddelivery" id="time2">
     <label for="pickup day">Pickup Day</label>
     <input type="date" name="pickupWhen" id="datefield">
     <div class='center'>

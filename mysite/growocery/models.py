@@ -44,6 +44,7 @@ class GroceryChain(models.Model):
 class DeliveryFee(models.Model):
     chain = models.ForeignKey(GroceryChain, on_delete=models.CASCADE)
     minPrice = models.DecimalField(decimal_places=2, max_digits=15)
+    window = models.DurationField()
     fee = models.DecimalField(decimal_places=2, max_digits=15)
 
 class GroceryStore(models.Model):
@@ -75,9 +76,10 @@ class Order(models.Model):
     invoiceGenerated = models.BooleanField(default=False)
 
 class Invoice(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
-    amount =  models.DecimalField(decimal_places=2, max_digits=15)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=True, null=True)
+    amount =  models.DecimalField(decimal_places=2, max_digits=15, blank=True, null=True)
+    fee = models.DecimalField(decimal_places=2, max_digits=15, blank=True, null=True)
 
 class Cart(models.Model):
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE, blank=True, null=True)
@@ -92,7 +94,10 @@ class Pickup(models.Model):
     buyer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, blank=True, null=True)
     locationDetails = models.CharField(max_length=300, blank=True, null=True, default="pending")
     pickupWhen = models.DateTimeField(blank=True, null=True)
+    window1 = models.DateTimeField(blank=True, null=True)
+    window2 = models.DateTimeField(blank=True, null=True)
     store = models.ForeignKey(GroceryStore, on_delete=models.CASCADE,blank=True, null=True)
+    fee = models.ForeignKey(DeliveryFee, blank=True, null=True, on_delete=models.CASCADE)
 
 class CommunityGroceryGroup(models.Model):
     pcc = models.ForeignKey(PostCodeCommunity, on_delete=models.CASCADE)
