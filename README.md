@@ -22,3 +22,5 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
+
+### Access populated suburb as an example
