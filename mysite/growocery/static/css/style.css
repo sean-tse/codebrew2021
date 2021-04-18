@@ -66,6 +66,9 @@ label {
 .logo-long img {
     width: 220px;
 }
+a {
+    color: #491C1D;
+}
 nav {
     display: flex;
     height: 100%;
